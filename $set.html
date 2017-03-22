@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>use $set</title>
+  </head>
+  <body>
+    <div id="app">
+      {{ arr }}
+      <ul>
+        <li v-for="item in arrobj" @click="toggle(item)">
+          {{item.name}}
+          <div v-show="item.show">hide</div>
+        </li>
+      </ul>
+      <input @click="set" value="set" type="button">
+      <input @click="reactivity" :data-name='reactivity' value="reactivity" type="button">
+      <input @click="setdynamic" value="dynamic data" type="button">
+    </div>
+    <script>
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  arr:['a','b'],
+                  arrobj:[{'name':'i'},{'name':'van'}],
+                  reactivity:1,
+                  temp:1,
+                  temp2:2,
+                  dynamic4:'',
+              }
+          },
+          mounted:function () {
+
+          },
+          methods:{
+              toggle:function(item){
+                  //Vue.set(item,'show',this.show = !this.show);或者
+                  this.$set(item,'show',this.show = !this.show)
+              },
+              set:function () {
+                  //this.arr[2]='c'//这样设置界面不响应的,['a','b']
+                  //this.$set(this.arr,2,'c');//界面响应响应的，['a','b','c']
+                  //set();//界面响应响应的，['a','b','c']
+                  set1();//界面响应响应的，['a','b','c']
+              },
+              reactivity:function () {
+                  this.reactivity++;
+              },
+              setdynamic:function () {
+                  console.log(this.dynamic1);//1
+                  console.log(this.dynamic2)//undefined
+                  //this.$set('dynamic3',3)//报错
+                  this.$set(this.$data,'dynamic3',3)//没有结果
+                  console.log(this.$data)//结果如下，没有dynamic3
+                  /*
+                   * Object
+                   *   arr: Array[2]
+                   *   dynamic2: 2
+                   *   reactivity: 1
+                   *   get arr: ()
+                   *   set arr: (t)
+                   *   get reactivity: ()
+                   *   set reactivity: (t)
+                   *   __proto__: Object
+                   *
+                   * */
+                  //this.$set('dynamic2',2)//Cannot assign to read only property '2' of string 'dynamic2'
+                  this.$set(this.$data,'dynamic2',this.temp2++)
+                  console.log(this.$data)//结果如下
+                  /*
+                   * Object
+                   *   arr: Array[2]
+                   *   dynamic2: 22
+                   *   reactivity: 1
+                   *   get arr: ()
+                   *   set arr: (t)
+                   *   get reactivity: ()
+                   *   set reactivity: (t)
+                   *   __proto__: Object
+                   *
+                   * */
+                   //this.$set(this.$data.dynamic2,'dynamic2',33)//Cannot create property 'dynamic2' on number '22'
+                   //this.$set('dynamic1',11)// Cannot create property '11' on string 'dynamic1'
+                   //this.$set('dynamic1',11)// Cannot create property '11' on string 'dynamic1'
+                   this.$set(this.$data,'dynamic4',this.temp++);//1,2,3
+                   console.log(this.$data)
+              }
+          }
+      })
+      app.dynamic1=1; //1
+      console.log(app.$data.dynamic1)//undefined
+      app.$data.dynamic2=2;
+      console.dir(app.$data)//有dynamic2,but结果如下，没有get set
+      /*
+      * Object
+      *   arr: Array[2]
+      *   dynamic2: 2
+      *   reactivity: 1
+      *   get arr: ()
+      *   set arr: (t)
+      *   get reactivity: ()
+      *   set reactivity: (t)
+      *   __proto__: Object
+      *
+      * */
+      function set() {
+          //全局
+          Vue.set(app.arr,2,'c')
+      }
+      function set1() {
+          //实例，等同于this.$set
+          app.$set(app.arr,2,'c')
+      }
+    </script>
+  </body>
+</html>
