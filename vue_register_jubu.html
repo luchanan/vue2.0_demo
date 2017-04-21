@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <template id="getComponents">
+    <div>呵呵</div>
+  </template>
+    <div id="app">
+      <render-next></render-next>
+    </div>
+    <script>
+      // 局部注册组件
+      /*var renderNext = Vue.extend({
+          template:"#getComponents"
+      })*/
+      var renderNext ={
+          template:"#getComponents"
+      }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+              }
+          },
+          components:{
+              "render-next":renderNext
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

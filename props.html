@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <script type="text/x-template" id="uiTemplate">
+    <div class="root_wrap">
+      <li>model1:{{model1}}</li>
+      <li>modelKey(输不出结果):{{modelKey}}</li>
+      <li>passkey:{{passkey}}</li>
+      <li>testKey:{{testKey}}</li>
+    </div>
+  </script>
+    <div id="app">
+        <item :model1="source" :modelKey="root_jsonSchema" :passkey="source" :test-key="source"></item>
+    </div>
+    <script>
+        Vue.component('item', {
+          template: '#uiTemplate',
+          props:{
+              model1:Object,
+              passkey:Object,
+              testKey:Object,//<item :test-key="source"></item>或者<item :test-Key="source"></item>
+              modelKey:Object//采用camel命名，将输不出结果！！！，https://vuejs.org/v2/guide/components.html#camelCase-vs-kebab-case
+          },
+          data: function () {
+              return {
+              }
+          }
+      })
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  root_jsonSchema:[{"name":"ivan"}],
+                  source:[{"sex":"man"}]
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

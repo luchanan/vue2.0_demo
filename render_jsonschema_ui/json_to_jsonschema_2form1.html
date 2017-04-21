@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <template id="getComponents">
+    <div class="getComponents">
+      <!--type==>string-->
+      <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='string'">
+        {{sourcekey[keyname]}}
+      </el-form-item>
+      <!--type==>string-->
+      <!--type==>text-->
+      <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='text'">
+        <el-input v-model="sourcekey[keyname]"></el-input>
+      </el-form-item>
+      <!--type==>text-->
+      <!--type==>checkbox-->
+      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='checkbox'">
+        <el-checkbox-group v-model="sourcekey[keyname]">
+          <el-checkbox :label="item" v-for="item in keyvalue.enum"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <!--type==>checkbox-->
+      <!--type==>radio-->
+      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='radio'">
+        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.enum">{{item}}</el-radio>
+      </el-form-item>
+      <!--type==>radio-->
+    </div>
+  </template>
+  <template id="uiGenerate">
+    <div class="uiGenerate">
+      <div v-for="(val,key) in model">
+        <!--<get-components :passtype="val" :sourcekey="sourcekey" :keyname="val" :title="val.title" v-if="isroot!=0"></get-components>-->
+        <!--object-->
+        <div v-if="val==='object'">
+          <div v-for="(pro_val,pro_key) in model.properties">
+            <!--render compontents-->
+            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val"></get-components>
+            <!--render compontents-->
+            <!--array-->
+            <div v-if="pro_val.type==='array'">
+              <ui-generate v-for="(form_val,form_key,form_index) in sourcekey[pro_key]" :sourcekey="sourcekey[pro_key][form_key]" :model="pro_val.items">
+              </ui-generate>
+            </div>
+            <!--array-->
+          </div>
+        </div>
+        <!--object-->
+      </div>
+    </div>
+  </template>
+    <div id="app">
+      {{source}}
+      <el-form ref="form" label-width="150px">
+        <ui-generate :model="jsonSchema" :sourcekey="source"></ui-generate>
+      </el-form>
+    </div>
+    <script>
+      //不可以分割的type：text,select,checkbox,string(单纯展示比如，订单编号)
+      Vue.component('get-components', {
+          template: '#getComponents',
+          props:["sourcekey","keyvalue","keyname"],
+          data: function () {
+              return {
+              }
+          }
+      })
+      Vue.component('ui-generate', {
+        template: '#uiGenerate',
+        props:{
+            "model":Object,
+            "sourcekey":Object
+        },
+        data: function () {
+            return {
+            }
+        }
+      })
+      var source={
+          "name":"endless",
+          "sex":"男",
+          "优惠券":"",
+          "area":['深圳','广州'],
+          "order":[{
+              "id":"1",
+              "number":"201",
+              "childOrder":[{
+                  "id":"1-1",
+                  "number":"2011"
+              },{
+                  "id":"2-1",
+                  "number":"3011"
+              }
+              ]
+          }]
+      }
+      //对应的Schema文档,type
+      var jsonSchema= {
+          "title": "配置文件",
+          "type": "object",
+          "properties": {
+              "name":{
+                  "type": "text",
+                  "title": "姓名"
+              },
+              "sex":{
+                  "type":"radio",
+                  "title":"性别",
+                  "enum": [
+                      "男",
+                      "女"
+                  ]
+              },
+              "area": {
+                  "type": "checkbox",
+                  "title": "区域",
+                  "enum": [
+                      "深圳",
+                      "上海",
+                      "北京",
+                      "广州"
+                  ]
+              },
+              "order":{
+                  "type":"array",
+                  "title":"订单",
+                  "items":{
+                      "type":"object",
+                      "title":"子订单",
+                      "properties":{
+                          "id":{
+                              "type":"string",
+                              "title":"母订单id",
+                          },
+                          "number":{
+                              "type":"string",
+                              "title":"母订单号",
+                          },
+                          "childOrder":{
+                              "type":"array",
+                              "title":"子订单",
+                              "items":{
+                                  "type":"object",
+                                  "properties":{
+                                      "id":{
+                                          "type":"string",
+                                          "title":"子订单id",
+                                      },
+                                      "number":{
+                                          "type":"string",
+                                          "title":"子订单编号",
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+        Vue.config.debug = true;
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  jsonSchema:jsonSchema,
+                  source:source
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>template使用extend共享数据问题</title>
+  </head>
+  <body>
+    <template id="temp">
+      <dl>
+        <dt v-for="item in person">{{item}}</dt>
+      </dl>
+    </template>
+
+    <template id="temp2">
+      <dl>
+        <dt v-for="item in person">{{item}}</dt>
+        <input type="text" v-model="txt">
+        <input type="button" @click="get" value="gettext">
+      </dl>
+    </template>
+
+    <div id="app">
+
+      <!--引用template组件，并且渲染数据-->
+      <com1></com1>
+
+      <com2></com2>
+
+    </div>
+
+
+    <script>
+          //https://laracasts.com/discuss/channels/vue/vue-components-with-different-templates?page=1
+        var Listing = Vue.extend({
+            data: function() {
+                return {
+                    person:[1,2,3],
+                    txt:'de'
+                }
+            },
+            methods:{
+                get:function() {
+                    console.log(this.txt)
+                }
+            }
+        });
+        var List1 = Listing.extend({
+            template: '#temp'
+        })
+        var List2 = Listing.extend({
+            template: '#temp2'
+        })
+        // 挂载在id为temp下，全局注册组件，然后#app引用组件
+        Vue.component('com1',List1);
+        Vue.component('com2',List2);
+
+        var app=new Vue({
+            el:'#app',
+            data: function (){
+                return {
+                    list:[1,2,3]
+                }
+            },
+            mounted:function () {
+
+            },
+            methods: {}
+        })
+    </script>
+  </body>
+</html>

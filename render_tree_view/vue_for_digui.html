@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>多级循环递归问题，循环调用自己的组件</title>
+  </head>
+  <body>
+    <script type="text/x-template" id="item-template">
+      <li>
+        <ul v-show="open" v-if="isFolder">
+          <item
+                  v-for="model in model.children"
+                  :model="model">
+          </item>
+        </ul>
+      </li>
+    </script>
+    <div id="app">
+      <ul>
+        <item :model="">
+
+        </item>
+      </ul>
+    </div>
+    <script>
+      //type array 的解析
+      // 假设最终数据
+//      [
+//          {
+//              "loc": "a value 1",
+//              "toll": null,
+//              "message": "message is sometimes null"
+//          },
+//          {
+//              "loc": "a value 2",
+//              "toll": "toll is sometimes null",
+//              "message": null
+//          }
+//      ]
+      // 转换
+//      {
+//          "$schema": "http://json-schema.org/draft-04/schema#",
+//          "definitions": {},
+//          "id": "http://example.com/example.json",
+//          "items": {
+//          "id": "/items",
+//              "properties": {
+//              "loc": {
+//                  "id": "/items/properties/loc",
+//                      "type": "string"
+//              },
+//              "message": {
+//                  "id": "/items/properties/message",
+//                      "type": "string"
+//              },
+//              "toll": {
+//                  "id": "/items/properties/toll",
+//                      "type": "null"
+//              }
+//          },
+//          "type": "object"
+//      },
+//          "type": "array"
+//      }
+      // http://stackoverflow.com/questions/36757949/json-schema-definition-for-array-of-objects
+      // https://spacetelescope.github.io/understanding-json-schema/reference/array.html
+      // https://jsonschema.net/#/editor
+      // 假设我以后台管理的创建主题为一个模块：
+      // 新建的时候，前端默认定义这个模块的数据结类型如下：
+      // 涉及选择语言的问题
+      var createSeason = {
+          title_res_id: '',
+          short_desc_res_id: '',
+          seo_title_res_id: '',
+          seo_key_res_id: '',
+          seo_desc_res_id: '',
+          activities: [{
+              activity_id: 39,
+              title_res_id: ''
+          }]
+      }
+      // 然后我们根据这个数据进行处理，因为要准备生成ui组件
+      // 参考了这个http://bigbluehat.github.io/vue-schema/
+      // http://ulion.github.io/jsonform/playground/?example=fields-submit
+      // 有基本类型（input，select），也有array类型
+      var generateUIJSON={
+          title_res_id: {
+              label_name: 'Theme Title',
+              type: 'string',
+              attr:{
+                  type:"text",
+                  placeholder:"Write Theme Title"
+              }
+          },
+          items:{
+              type: "array",
+              typeObject : {
+                  activity_id: {
+                      type: "string"
+                  },
+                  title_res_id:{
+                      type:"string"
+                  }
+              }
+          }
+      }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

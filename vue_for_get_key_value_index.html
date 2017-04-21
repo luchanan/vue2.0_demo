@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>获取objec，key value，index</title>
+  </head>
+  <body>
+    <div id="app">
+      <div v-for="(value,key,index) in data.object">"key":{{key}}, "value:"{{value}} "index:" {{index}}</div>
+      <div style="height: 20px"></div>
+      <div v-for="(value,key,index) in data.select">
+
+        外层："key":{{key}}, "value:"{{value}} "index:" {{index}}
+        <div style="height: 20px"></div>
+        <div v-for="(value1,key1,index1) in value">
+          内层："key1":{{key1}}, "value1:"{{value1}} "index1:" {{index1}}
+        </div>
+
+      </div>
+    </div>
+    <script>
+        var data = {
+            name: 'My Tree',
+            select:[
+                {
+                "name":"abc"
+              },{
+                  "name":"ofo"
+              }
+            ],
+            object: {
+                FirstName: 'John',
+                LastName: 'Doe',
+                Age: 30
+            },
+            children: [
+                { name: 'hello' },
+                { name: 'wat' },
+                {
+                    name: 'child folder',
+                    children: [
+                        {
+                            name: 'child folder',
+                            children: [
+                                { name: 'hello' },
+                                { name: 'wat' }
+                            ]
+                        },
+                        { name: 'hello' },
+                        { name: 'wat' },
+                        {
+                            name: 'child folder',
+                            children: [
+                                { name: 'hello' },
+                                { name: 'wat' }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+
+        var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  treeData: data
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

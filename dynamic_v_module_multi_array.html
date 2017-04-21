@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+    <template id="formID1">
+      <div>
+        <ul>
+          <li v-for="(item,index) in form.inputs">{{index}}<input :type="item.type" :name="item.name" :placeholder="item.placeholder"></li>
+        </ul>
+      </div>
+    </template>
+
+    <div id="app">
+      <uitext1></uitext1>
+    </div>
+
+
+    <script>
+      Vue.component('uitext1',  {
+          template:"#formID1",
+          data: function (){
+              return {
+              }
+          }
+      });
+
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  list:[1,2,3]
+              }
+          },
+          mounted:function () {
+
+          },
+          methods: {}
+      })
+    </script>
+  </body>
+</html>

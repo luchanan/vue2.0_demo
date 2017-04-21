@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <script type="text/x-template" id="item-template1">
+  <div>
+    <div v-for="(pro_val,pro_key) in model.properties">
+      <div v-if="pro_val.type=='string'">
+
+      </div>
+    </div>
+  </div>
+  </script>
+  <script type="text/x-template" id="item-template">
+    <div>
+      <div v-for="(val,key) in model">
+        <div v-if="val==='object'">
+          <div v-for="(pro_val,pro_key) in model.properties">
+            <!--array-->
+            <div v-if="pro_val.type==='array'">
+              <!--<item1 v-for="form_val in form[pro_key]" :model="pro_val.items">-->
+              <!--</item1>-->
+              <div v-for="(form_val,form_key) in form[pro_key]">
+                  <div v-for="(item_val,item_key,item_index) in pro_val.items.properties">
+                    <el-form-item :label="item_val.title" v-if="item_val.type=='string'">
+                      <el-input v-model="form_val[item_key]"></el-input>
+                    </el-form-item>
+                  </div>
+              </div>
+            </div>
+            <!--array-->
+            <!--string-->
+            <!--<el-form-item label="label_name" v-if="pro_val.type=='string'">-->
+              <!--<el-input></el-input>-->
+            <!--</el-form-item>-->
+            <!--string-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+    <div id="app">
+      <el-form ref="form" :model="form" label-width="80px">
+      <item :model="jsonSchema"></item>
+      </el-form>
+    </div>
+    <script>
+        Vue.component('item1', {
+            template: '#item-template1',
+            props: {
+                model: Object
+            },
+            data: function () {
+                return {
+                    form: source
+                }
+            },
+            methods: {}
+        })
+        Vue.component('item', {
+          template: '#item-template',
+          props:{
+              model:Object,
+              passKey:Object
+          },
+          data: function () {
+              return {
+                  form:source
+              }
+          },
+          methods: {
+          }
+      })
+      // 参考：http://www.jianshu.com/p/1995e14e491d
+      var source={
+          "title": "标题",
+          "tasks": [
+              {
+                  "title": "名称",
+                  "details": "13123"
+              }
+          ]
+      }
+      //对应的Schema文档,type(string=>text)
+      var ui_json= {
+          "title": "配置文件",
+          "type": "object",
+          "required": [
+              "title"
+          ],
+          "properties": {
+              "title": {
+                  "type": "string",
+                  "lalelName": "lalelName"
+              },
+              "tasks": {
+                  "type": "array",
+                  "title": "Tasks",
+                  "items": {
+                      "type": "object",
+                      "required": [
+                          "title"
+                      ],
+                      "properties": {
+                          "title": {
+                              "type": "string",
+                              "title": "Title",
+                              "description": "A sample title"
+                          },
+                          "details": {
+                              "type": "string",
+                              "title": "Task details",
+                              "description": "Enter the task details"
+                          }
+                      }
+                  }
+              }
+          }
+      }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  jsonSchema:ui_json,
+                  form:source
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

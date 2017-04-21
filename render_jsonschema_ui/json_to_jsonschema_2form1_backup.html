@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <script type="text/x-template" id="item-template1">
+  <div>
+    <!--v-model要根据类似source['key'][0]['']，所以用到passKey传值-->
+    <div v-for="(pro_val,pro_key,pro_index) in model.properties">
+      <el-checkbox-group v-if="pro_val.type=='checkbox'">
+        <el-checkbox :label="val[0]"></el-checkbox>
+        <el-checkbox :label="val[1]"></el-checkbox>
+      </el-checkbox-group>
+       <!--<h2> {{pro_key}}</h2>-->
+        <el-form-item :label="pro_val.title" v-if="pro_val.type=='string'">
+          <el-input v-model="passKey[pro_key]"></el-input>
+        </el-form-item>
+        <!--{{passKey[0][pro_key]}}-->
+        <div v-if="pro_val.type==='array'">
+          <item1 v-for="(form_val,form_key) in passKey[pro_key]" :passKey="passKey[pro_key][form_key]" :model="pro_val.items">
+          </item1>
+          <!--<li v-for="form_val in passKey[pro_index][pro_key]" :model="pro_val.items">-->
+            <!--{{passKey}}-->
+          <!--</li>-->
+        </div>
+    </div>
+  </div>
+
+
+  </script>
+  <script type="text/x-template" id="item-template">
+    <div>
+      {{form}}
+      <div v-for="(val,key) in model">
+        <div v-if="val==='object'">
+          <div v-for="(pro_val,pro_key) in model.properties">
+            <!--array-->
+            <div v-if="pro_val.type==='array'">
+              <item1 v-for="(form_val,form_key,form_index) in form[pro_key]" :passKey="form[pro_key][form_key]" :model="pro_val.items">
+                <!--{{form[pro_key][form_key]['lists']}}-->
+              </item1>
+            </div>
+            {{pro_val}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+    <div id="app">
+      <el-form ref="form" :model="form" label-width="80px">
+      <item :model="jsonSchema"></item>
+      </el-form>
+    </div>
+    <script>
+        Vue.component('item1', {
+            template: '#item-template1',
+            props: {
+                model: Object,
+                orign:source,
+                passKey:''
+            },
+            data: function () {
+                return {
+                    form: source
+                }
+            },
+            computed:{
+                detailKey:function (key) {
+                    console.log(key)
+                }
+            },
+            methods: {}
+        })
+        Vue.component('item', {
+          template: '#item-template',
+          props:{
+              model:Object,
+              passKey:Object
+          },
+          data: function () {
+              return {
+                  form:source
+              }
+          },
+          methods: {
+          }
+      })
+      // 参考：http://www.jianshu.com/p/1995e14e491d
+      var source={
+          "title": "标题",
+          "sex": ['男','女'],
+          "tasks": [
+              {
+                  "title": "名称",
+                  "details": "13123",
+                  "lists":[{
+                      title:'l2',
+                      "innerList":[{
+                          innerTitle:'innerList1'
+                      }]
+                  }]
+              },
+              {
+                  "title": "名称1",
+                  "details": "13123212",
+                  "lists":[{
+                      title:'l3'
+                  },
+                      {
+                          title:'l4'
+                      }
+                  ]
+              }
+          ]
+      }
+      //对应的Schema文档,type(string=>text)
+      var ui_json= {
+          "title": "配置文件",
+          "type": "object",
+          "required": [
+              "title"
+          ],
+          "properties": {
+              "title": {
+                  "type": "string",
+                  "lalelName": "lalelName"
+              },
+              "sex":{
+                "type":"checkbox"
+              },
+              "tasks": {
+                  "type": "array",
+                  "title": "Tasks",
+                  "items": {
+                      "type": "object",
+                      "required": [
+                          "title1"
+                      ],
+                      "properties": {
+                          "title": {
+                              "type": "string",
+                              "title": "Title",
+                              "description": "A sample title"
+                          },
+                          "details": {
+                              "type": "string",
+                              "title": "Task details",
+                              "description": "Enter the task details"
+                          },
+                          lists1:{
+                              "type": "array",
+                              "title": "list1 array",
+                              "items": {
+                                  "type": "object",
+                                  "required": [
+                                      "title"
+                                  ],
+                                  "properties": {
+                                      "title": {
+                                          "type": "string",
+                                          "title": "lists1 lists1lists1 Title",
+                                          "description": "list1 A sample title"
+                                      }
+                                  }
+                              }
+                          },
+                          "lists": {
+                              "type": "array",
+                              "title": "list1 array",
+                              "items": {
+                                  "type": "object",
+                                  "required": [
+                                      "title"
+                                  ],
+                                  "properties": {
+                                      "title": {
+                                          "type": "string",
+                                          "title": "list1 Title",
+                                          "description": "list1 A sample title"
+                                      },
+                                      "innerList":{
+                                          type:'array',
+                                          items:{
+                                              type:'object',
+                                              properties:{
+                                                  "innerTitle":{
+                                                      type:"string",
+                                                      title:"inner title"
+                                                  }
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  jsonSchema:ui_json,
+                  form:source
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

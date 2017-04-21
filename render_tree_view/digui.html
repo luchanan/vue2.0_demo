@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>多级循环递归问题，循环调用自己的组件</title>
+    <style>
+      [type="text"]{
+        border: solid 1px #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <template id="item-template">
+      <li>
+        {{model.activity_id}}
+        <input type="text">
+        <ul v-if="isFolder">
+          <item
+                  v-for="model in model.activities"
+                  :model="model">
+          </item>
+        </ul>
+      </li>
+    </template>
+    <div id="app">
+      <ul>
+        <item :model="treeData">
+        </item>
+      </ul>
+    </div>
+    <script>
+        Vue.component('item', {
+            template: '#item-template',
+            props:['model'],
+            data: function () {
+                return {
+                }
+            },
+            computed: {
+                isFolder: function () {
+                    return this.model.activities &&
+                        this.model.activities.length
+                }
+            },
+            methods: {
+            }
+        })
+
+      var createSeason = {
+          title_res_id: '123',
+          seo_title_res_id: '456',
+          activities: [{
+              activity_id: 39,
+              title_res_id: ''
+          }]
+      }
+      //type(string, array,object)
+      //input_type(text,select,password,textara)
+        var generateUIJSON={
+            title_res_id: {
+                type: 'string',
+                label_name: 'Theme Title',
+                attr:{
+                    type:"text",
+                    module:"default value",
+                    placeholder:"Write Theme Title"
+                }
+            },
+            activities:{
+                type: "array",
+                label_name: 'Activities',
+                items : {
+                    type: "object",
+                    properties: {
+                      activity_id: {
+                          type: "string",
+                      },
+                      title_res_id:{
+                          type:"string",
+                          attr:{
+                              type:"text"
+                          }
+                      }
+                    }
+                }
+            }
+        }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  treeData: createSeason
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

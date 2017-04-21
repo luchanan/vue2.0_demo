@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <title>多级循环递归问题，循环调用自己的组件</title>
+  </head>
+  <body>
+    <script type="text/x-template" id="item-template">
+      <li>
+        <div v-for="(val,key) in model">
+          <div>{{key}}:{{hasChild(val,key)?'':val}}</div>
+          <!--<ul v-if="hasChild('img')" class="each">-->
+            <!--<item v-for="(model,index) in model['img']"-->
+                  <!--:model="model">-->
+            <!--</item>-->
+          <!--</ul>-->
+          <ul v-if="hasChild(val,key)" class="each">
+            <item v-for="model in model[key]" :model="model"></item>
+          </ul>
+        </div>
+      </li>
+    </script>
+    <div id="app">
+      <ul>
+        <item :model="createSeason"></item>
+      </ul>
+    </div>
+    <script>
+        Vue.component('item', {
+            template: '#item-template',
+            props:{
+                model:Object,
+                index:0
+            },
+            data: function () {
+                return {
+                }
+            },
+            computed: {
+                /*hasChild: function () {
+                    return this.model.activities && this.model.activities.length
+                }*/
+            },
+            methods: {
+                html:function () {
+
+                },
+                hasChild: function (val,key) {
+                    //console.log(this.is_array(childEle))
+                    if(this.is_array(val)){
+                        return this.model[key] && this.model[key].length
+                    }
+                    return false
+                },
+                is_array: function (array) {
+                    return $.isArray(array)
+                },
+                is_object: function (obj) {
+                    if( (typeof obj === "object") && (obj !== null) ) {
+                        return true
+                    }
+                    return false
+                }
+            }
+        })
+      var createSeason = {
+          title: '春風十里 沁人心脾',
+          short_desc: '從日本、台灣到荷蘭，賞盡繁花爛漫，看盡十里春風',
+          img1:['d','e','f'],
+          img:['a','b','c'],
+          activities: [{
+              activity_id: 39,
+              title: '富士山芝樱祭＆采草莓吃到饱',
+              activities:[{
+                  activity_id: 40,
+                  title: '富士山芝樱祭＆采草莓吃到饱',
+              },{
+                  activity_id: 48,
+                  title: '千岛湖水光山色 寻访八卦茶园秘境'
+              }
+              ]
+          },{
+              activity_id: 38,
+              title: '千岛湖水光山色 寻访八卦茶园秘境'
+          }
+          ]
+      }
+      var data = {
+
+            title: {
+                type: 'input'
+            }
+      }
+      var uijson={
+          title: {
+              type:'string',
+              labe_name:'***',
+              value:'春風十里 沁人心脾',
+              attr:{
+
+              }
+          }
+      }
+        //template(createSeason);
+        function template(obj) {
+            console.log(obj)
+        }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  data: createSeason
+              }
+          },
+          mounted:function () {
+
+          },
+          methods:{
+
+          }
+      })
+    </script>
+  </body>
+</html>

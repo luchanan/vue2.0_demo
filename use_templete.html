@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>动态生成的html，嵌入并且能监听动态的事件</title>
+  </head>
+  <body>
+    <template id="temp">
+      <!--至少一个根源素-->
+      <dl>
+        <dt v-for="item in person">{{item}}</dt>
+        <input type="text" v-model="txt" value="2">
+      </dl>
+
+    </template>
+
+
+
+    <div id="app">
+      <ul>
+      <template v-for="item in list">
+        <li>{{item}}</li>
+      </template>
+      </ul>
+      <ol>
+        <li v-for="item in list">{{item}}</li>
+      </ol>
+
+      <!--引用template组件，并且渲染数据-->
+      <com1></com1>
+
+    </div>
+
+
+    <script>
+      // 挂载在id为temp下，全局注册组件，然后#app引用组件
+      Vue.component('com1',  {
+          template:"#temp",//或者类似<div><span>{{text}}</span></div>这种
+          data: function (){
+              return {
+                  person:[1,2,3],
+                  txt:'default'
+              }
+          }
+      });
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  list:[1,2,3]
+              }
+          },
+          mounted:function () {
+
+          },
+          methods: {}
+      })
+    </script>
+  </body>
+</html>

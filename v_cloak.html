@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>template使用extend共享数据问题</title>
+    <style>
+      [v-cloak] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <ul v-cloak>
+        <li v-for="item in list">{{item}}</li>
+      </ul>
+      <ul>
+        <li v-for="item in list">{{item}}</li>
+      </ul>
+    </div>
+    <script>
+        var app=new Vue({
+            el:'#app',
+            data: function (){
+                return {
+                    list:[1,2,3]
+                }
+            },
+            mounted:function () {
+
+            },
+            methods: {}
+        })
+    </script>
+  </body>
+</html>

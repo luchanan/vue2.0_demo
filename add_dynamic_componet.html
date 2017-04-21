@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+    <template id="formID1">
+      <div>
+        <ul>
+          <li v-for="(item,index) in form.inputs">{{index}}<input :type="item.type" :name="item.name" :placeholder="item.placeholder"></li>
+        </ul>
+      </div>
+    </template>
+
+    <div id="app">
+      <button @click="add('a-component', 'test')">Add A</button>
+      <button @click="add('b-component', 'test')">Add B</button>
+      <!--<a href="#" @click="currentView='manage-posts'">Manage Posts</a>-->
+      <ul>
+        <li :is="item.component" :text="item.text" v-for="item in items"></li>
+      </ul>
+    </div>
+
+
+    <script>
+        var AComponent = Vue.extend({
+            props: ['text'],
+            template: '<li>A Component: {{ text }}</li>'
+        })
+
+        var BComponent = Vue.extend({
+            props: ['text'],
+            template: '<li>B Component: {{ text }}</li>'
+        })
+
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  index:0,
+                  items:[]
+              }
+          },
+          components: {
+              'a-component': AComponent,
+              'b-component': BComponent
+          },
+          methods: {
+              add:function (name,text) {
+                  this.index++;
+                  this.items.push({
+                      'component': name,
+                      'text': text+this.index
+                  })
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

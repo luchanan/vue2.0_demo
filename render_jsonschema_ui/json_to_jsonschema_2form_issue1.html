@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <template id="getComponents">
+    <div class="getComponents">
+      <!--string==>text-->
+      <el-form-item :label="title" v-if="passtype=='string'">
+        <!--not work-->
+        <el-input v-model="passkey"></el-input>
+        <!--it work-->
+        <!--<el-input v-model="passkey[passname]"></el-input>-->
+      </el-form-item>
+      <!--string==>text-->
+    </div>
+  </template>
+  <template id="uiGenerate">
+    <div class="uiGenerate">
+      <div v-for="(val,key) in model">
+        <!--object-->
+        <div v-if="val==='object'">
+          <div v-for="(pro_val,pro_key) in model.properties">
+            <!--render compontents-->
+            <!--not work-->
+            <get-components :passtype="pro_val.type" :passkey="passkey[pro_key]" :title="pro_val.title"></get-components>
+            <!--it work-->
+            <!--<get-components :passtype="pro_val.type" :passkey="passkey" :passname="pro_key" :title="pro_val.title"></get-components>-->
+            <!--render compontents-->
+            <!--array-->
+            <div v-if="pro_val.type==='array'">
+              <ui-generate v-for="(form_val,form_key,form_index) in passkey[pro_key]" :passkey="passkey[pro_key][form_key]" :model="pro_val.items">
+              </ui-generate>
+            </div>
+            <!--array-->
+          </div>
+        </div>
+        <!--object-->
+      </div>
+    </div>
+  </template>
+    <div id="app">
+      {{source}}
+      <el-form ref="form" label-width="80px">
+        <ui-generate :model="jsonSchema" :passkey="source"></ui-generate>
+      </el-form>
+    </div>
+    <script>
+      Vue.component('get-components', {
+          template: '#getComponents',
+          props:["passtype","passkey","title","model","passname"],
+          data: function () {
+              return {
+              }
+          }
+      })
+      Vue.component('ui-generate', {
+        template: '#uiGenerate',
+        props:{
+            "model":Object,
+            "passkey":Object
+        },
+        data: function () {
+            return {
+            }
+        }
+      })
+      var source={
+          "name": "endlesss_story"
+      }
+      //对应的Schema文档,type(string=>text)
+      var jsonSchema= {
+          "title": "配置文件",
+          "type": "object",
+          "properties": {
+              "name": {
+                  "type": "string",
+                  "title": "姓名"
+              }
+          }
+      }
+        Vue.config.debug = true;
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  jsonSchema:jsonSchema,
+                  source:source
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>

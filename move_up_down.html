@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      {{json}}
+      <el-form ref="form" :model="json" label-width="80px">
+        <el-form-item :label="item.title" v-for="(item,index) in json">
+          <el-row>
+            <el-col :span="12"><el-input v-model="item.value"></el-input></el-col>
+            <el-col :span="12"><el-button @click="up(index)">up</el-button><el-button @click="down(index)">down</el-button></el-col>
+          </el-row>
+        </el-form-item>
+      </el-form>
+    </div>
+    <script>
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  json:[
+                      {title:'姓名',value:"iv"},
+                      {title:'性别',value:"男"},
+                      {title:'身高',value:"1米"}
+                  ]
+              }
+          },
+          methods:{
+              up:function (index) {
+                  if(index!=0){
+                      this.swapItems(index,index - 1);
+                  }
+              },
+              down:function (index) {
+                  if((this.json.length-1)!=index){
+                      this.swapItems(index,index + 1);
+                  }
+              },
+              swapItems:function(index1, index2,direction) {
+                  var arr=this.json;
+//                  if(direction=='top'){//top
+//                      arr.unshift(arr[index1]);
+//                      arr.splice(index1+1,1);
+//                      return arr;
+//                  }
+//                  if(direction=='bottom'){//bottom
+//                      arr.push(arr[index1]);
+//                      arr.splice(index1,1);
+//                      return arr;
+//                  }
+                  arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+                  return arr;
+              }
+          },
+          mounted:function () {
+          }
+      })
+    </script>
+  </body>
+</html>
