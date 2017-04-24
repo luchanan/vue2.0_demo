@@ -8,18 +8,15 @@
     <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
     <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
     <title></title>
-    <style>
-      .array_title{
-        font-size: 24px;
-      }
-      .el-input{
-        width: 300px !important;
-      }
-    </style>
   </head>
   <body>
   <template id="getComponents">
     <div class="getComponents">
+      <!--type==>string-->
+      <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='string'">
+        {{sourcekey[keyname]}}
+      </el-form-item>
+      <!--type==>string-->
       <!--type==>text-->
       <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='text'">
         <el-input v-model="sourcekey[keyname]"></el-input>
@@ -32,34 +29,32 @@
         </el-checkbox-group>
       </el-form-item>
       <!--type==>checkbox-->
-      <ul class="array" v-if="keyvalue.type=='array'">
-        <li class="array_title">
-            <strong>{{keyvalue.title}}</strong>
-            <el-button @click="addChild(sourcekey[keyname])">＋添加</el-button>
-          </p>
-        </li>
-        <ul class="array_object">
-            <li v-for="(form_val,form_index) in sourcekey[keyname]" >
-              <ui-generate :sourcekey="sourcekey[keyname][form_index]" :model="keyvalue.items" style="float: left"></ui-generate>
-              <el-button>增加</el-button>
-              <el-button @click="deleteItem(form_index,sourcekey[keyname])">删除</el-button>
-              <el-button @click="moveItem(form_index,form_index-1,sourcekey[keyname])" :disabled="form_index==0">上移</el-button>
-              <el-button @click="moveItem(form_index,form_index+1,sourcekey[keyname])" :disabled="form_index==sourcekey[keyname].length-1">下移</el-button>
-              <div style="clear: both"></div>
-            </li>
-        </ul>
-      </ul>
-      <!--type==>array-->
+      <!--type==>radio-->
+      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='radio'">
+        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.enum">{{item}}</el-radio>
+      </el-form-item>
+      <!--type==>radio-->
     </div>
   </template>
   <template id="uiGenerate">
     <div class="uiGenerate">
       <div v-for="(val,key) in model">
-        <div class="object" v-if="val==='object'">
-            <!--去判断每个properties的type-->
-            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val" v-for="(pro_val,pro_key) in model.properties"></get-components>
+        <!--<get-components :passtype="val" :sourcekey="sourcekey" :keyname="val" :title="val.title" v-if="isroot!=0"></get-components>-->
+        <!--object-->
+        <div v-if="val==='object'">
+          <div v-for="(pro_val,pro_key) in model.properties">
+            <!--render compontents-->
+            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val"></get-components>
+            <!--render compontents-->
+            <!--array-->
+            <div v-if="pro_val.type==='array'">
+              <ui-generate v-for="(form_val,form_key,form_index) in sourcekey[pro_key]" :sourcekey="sourcekey[pro_key][form_key]" :model="pro_val.items">
+              </ui-generate>
+            </div>
+            <!--array-->
           </div>
         </div>
+        <!--object-->
       </div>
     </div>
   </template>
@@ -76,23 +71,6 @@
           props:["sourcekey","keyvalue","keyname"],
           data: function () {
               return {
-                  num:5000
-              }
-          },
-          methods:{
-              deleteItem:function (index,sourceKey) {
-                  sourceKey.splice(index,1)
-              },
-              moveItem:function (first,last,sourceKey) {
-                  sourceKey[first] = sourceKey.splice(last, 1, sourceKey[first])[0];
-              },
-              addChild:function (sourceKey) {
-                  this.num++;
-                  var newdata= {
-                          "id":this.num,
-                          "number":this.num+"01"
-                      }
-                  sourceKey.unshift(newdata)
               }
           }
       })
@@ -112,20 +90,18 @@
           "sex":"男",
           "优惠券":"",
           "area":['深圳','广州'],
-          "order":[
-              {
-                  "id":"1",
-                  "number":"101"
-              },
-              {
-                  "id":"2",
-                  "number":"201"
-              },
-              {
-                  "id":"3",
-                  "number":"301"
+          "order":[{
+              "id":"1",
+              "number":"201",
+              "childOrder":[{
+                  "id":"1-1",
+                  "number":"2011"
+              },{
+                  "id":"2-1",
+                  "number":"3011"
               }
-          ]
+              ]
+          }]
       }
       //对应的Schema文档,type
       var jsonSchema= {
@@ -156,17 +132,35 @@
               },
               "order":{
                   "type":"array",
-                  "title":"全部订单",
+                  "title":"订单",
                   "items":{
                       "type":"object",
+                      "title":"子订单",
                       "properties":{
                           "id":{
-                              "type":"text",
-                              "title":"订单id",
+                              "type":"string",
+                              "title":"母订单id",
                           },
                           "number":{
-                              "type":"text",
-                              "title":"订单号",
+                              "type":"string",
+                              "title":"母订单号",
+                          },
+                          "childOrder":{
+                              "type":"array",
+                              "title":"子订单",
+                              "items":{
+                                  "type":"object",
+                                  "properties":{
+                                      "id":{
+                                          "type":"string",
+                                          "title":"子订单id",
+                                      },
+                                      "number":{
+                                          "type":"string",
+                                          "title":"子订单编号",
+                                      }
+                                  }
+                              }
                           }
                       }
                   }

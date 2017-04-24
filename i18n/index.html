@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-i18n/5.0.3/vue-i18n.min.js"></script>
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      {{ $t("message.hello") }}
+    </div>
+    <script>
+      //zh-CN.json
+      // ready translated locales
+      var locales = {
+          en: {
+              message: {
+                  hello: 'hello world'
+              }
+          },
+          ja: {
+              message: {
+                  hello: 'こんにちは、世界'
+              }
+          }
+      }
+      var lang="ja"
+      Vue.use(VueI18n)
+      Vue.config.lang = lang
+      Object.keys(locales).forEach(function (lang) {
+          Vue.locale(lang, locales[lang])
+      });
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+              }
+          },
+          mounted:function () {
+
+          },
+          methods: {}
+      })
+    </script>
+  </body>
+</html>
