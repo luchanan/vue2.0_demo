@@ -19,11 +19,6 @@
       .el-input{
         width: 300px !important;
       }
-      [contenteditable]{
-        max-height: 500px;
-        overflow: scroll;
-        border: solid 1px #ddd
-      }
     </style>
   </head>
   <body>
@@ -121,15 +116,11 @@
       <el-row gutter="50">
         <el-col :span="6">
           <h5>原始数据</h5>
-          <pre contenteditable="true">{{source}}</pre>
+          <pre contenteditable="true" style="border: solid 1px #ddd" ref="jsontext">{{source}}</pre>
+          <!--<el-button @click="generate($event)" size="mini">生成-->
+          <!--</el-button>-->
         </el-col>
-        <el-col :span="6">
-          <h5>jsonschema</h5>
-          <pre contenteditable="true" ref="jsontext">{{schema}}</pre>
-          <el-button @click="generate($event)" size="mini">生成
-          </el-button>
-        </el-col>
-        <el-col :span="12">
+        <el-col :span="18">
           <h5>生成的ui</h5>
           <el-form ref="form" label-width="150px">
             <ui-object :schema="schema" :source="source"></ui-object>
@@ -299,19 +290,19 @@
       }
       var app=new Vue({
           el:'#app',
-          data: {
+          data: function (){
+              return {
                   schema:schema,
                   source:source
+              }
           },
           mounted:function () {
 
           },
           methods: {
               generate:function () {
-                  var source=JSON.parse(this.$refs.jsonsource.innerHTML)
-                  var schema=JSON.parse(this.$refs.jsonshema.innerHTML)
-                  this.schema=schema;
-                  this.source=source;
+                  var data=JSON.parse(this.$refs.jsontext.innerHTML)
+                  this.source=data;
               }
           }
       })

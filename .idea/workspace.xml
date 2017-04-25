@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8495320b-9578-47bd-ae1b-5e792fbe57e7" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" afterPath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,21 +24,11 @@
       <file leaf-file-name="json_to_jsonschema_2form1.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="149" column="33" lean-forward="false" selection-start-line="149" selection-start-column="33" selection-end-line="149" selection-end-column="33" />
+            <state relative-caret-position="360">
+              <caret line="24" column="30" lean-forward="true" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
               <folding>
-                <marker date="1493107285000" expanded="false" signature="5076:7529" ph="{&quot;title&quot;: &quot;配置文件&quot;...}" />
+                <element signature="e#5363#6350#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dynamic_v_module_static_value.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dynamic_v_module_static_value.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="46" column="41" lean-forward="false" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -45,8 +36,8 @@
       <file leaf-file-name="json_to_jsonschema_2form_version7.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version7.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="37" column="21" lean-forward="true" selection-start-line="34" selection-start-column="6" selection-end-line="37" selection-end-column="21" />
+            <state relative-caret-position="204">
+              <caret line="59" column="26" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -56,9 +47,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>form</find>
-      <find>passKey</find>
-      <find>标题</find>
       <find>com</find>
       <find>tasks</find>
       <find>type</find>
@@ -84,8 +72,11 @@
       <find>sourcekey</find>
       <find>min</find>
       <find>add</find>
-      <find>addChild</find>
       <find>checkbox</find>
+      <find>array</find>
+      <find>addChild</find>
+      <find>radion</find>
+      <find>generate</find>
     </findStrings>
     <replaceStrings>
       <replace>img</replace>
@@ -315,12 +306,12 @@
       <workItem from="1492739523399" duration="13382000" />
       <workItem from="1492789057787" duration="50000" />
       <workItem from="1492824601149" duration="568000" />
-      <workItem from="1493001191536" duration="40471000" />
+      <workItem from="1493001191536" duration="47810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="190499000" />
+    <option name="totallyTimeSpent" value="197838000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="23" width="1440" height="829" extended-state="6" />
@@ -333,7 +324,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43147898" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23114869" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19943622" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882273" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -381,20 +372,12 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/i18n/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1493107285000" expanded="false" signature="5076:7529" ph="{&quot;title&quot;: &quot;配置文件&quot;...}" />
+            <element signature="e#5363#6350#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -404,7 +387,7 @@
         <state relative-caret-position="1545">
           <caret line="103" column="27" lean-forward="false" selection-start-line="103" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
           <folding>
-            <marker date="1493107285000" expanded="false" signature="5076:7529" ph="{&quot;title&quot;: &quot;配置文件&quot;...}" />
+            <element signature="e#5363#6350#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -421,7 +404,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1493107285000" expanded="false" signature="5076:7529" ph="{&quot;title&quot;: &quot;配置文件&quot;...}" />
+            <element signature="e#5363#6350#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -732,18 +715,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version7.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="37" column="21" lean-forward="true" selection-start-line="34" selection-start-column="6" selection-end-line="37" selection-end-column="21" />
+        <state relative-caret-position="204">
+          <caret line="59" column="26" lean-forward="true" selection-start-line="59" selection-start-column="18" selection-end-line="59" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version8.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="149" column="33" lean-forward="false" selection-start-line="149" selection-start-column="33" selection-end-line="149" selection-end-column="33" />
+        <state relative-caret-position="360">
+          <caret line="24" column="30" lean-forward="true" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding>
-            <marker date="1493107285000" expanded="false" signature="5076:7529" ph="{&quot;title&quot;: &quot;配置文件&quot;...}" />
+            <element signature="e#5363#6350#0" expanded="false" />
           </folding>
         </state>
       </provider>
