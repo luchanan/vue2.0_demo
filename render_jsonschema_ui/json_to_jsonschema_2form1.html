@@ -18,102 +18,128 @@
     </style>
   </head>
   <body>
-  <template id="getComponents">
-    <div class="getComponents">
-      <!--type==>text-->
-      <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='text'">
-        <el-input v-model="sourcekey[keyname]"></el-input>
-      </el-form-item>
-      <!--type==>text-->
-      <!--type==>checkbox-->
-      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='checkbox'">
-        <el-checkbox-group v-model="sourcekey[keyname]">
-          <el-checkbox :label="item" v-for="item in keyvalue.options"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <!--type==>checkbox-->
-      <!--type==>radio-->
-      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='radio'">
-        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.options">{{item}}</el-radio>
-      </el-form-item>
-      <!--type==>radio-->
-      <ul class="array" v-if="keyvalue.type=='array'">
-        <li class="array_title">
-            <strong>{{keyvalue.title}}</strong>
-            <el-button @click="addChild(sourcekey[keyname])">＋添加</el-button>
-          </p>
-        </li>
-        <ul class="array_object">
-            <li v-for="(form_val,form_index) in sourcekey[keyname]" >
-              <ui-generate :sourcekey="sourcekey[keyname][form_index]" :model="keyvalue.array_item_schema" style="float: left"></ui-generate>
-              <el-button @click="addChild(sourcekey[keyname])">增加</el-button>
-              <el-button @click="deleteItem(form_index,sourcekey[keyname])">删除</el-button>
-              <el-button @click="moveItem(form_index,form_index-1,sourcekey[keyname])" :disabled="form_index==0">上移</el-button>
-              <el-button @click="moveItem(form_index,form_index+1,sourcekey[keyname])" :disabled="form_index==sourcekey[keyname].length-1">下移</el-button>
-              <div style="clear: both"></div>
-            </li>
-        </ul>
-      </ul>
-      <!--type==>array-->
-    </div>
-  </template>
-  <template id="uiGenerate">
-    <div class="uiGenerate">
-      <div v-for="(val,key) in model">
-        <div class="object" v-if="val==='object'">
-            <!--去判断每个properties的type-->
-            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val" v-for="(pro_val,pro_key) in model.object_schema"></get-components>
-          </div>
-        </div>
+
+
+    <template id="render_template">
+      <div class="render_components">
+        <ui-text v-if="val.type=='text'" :source="source" :schema="schema[k]" :k="k"></ui-text>
+        <ui-checkbox v-if="val.type=='checkbox'" :source="source" :schema="schema[k]" :k="k"></ui-checkbox>
+        <ui-array v-if="val.type=='array'" :source="source" :schema="schema[k]" :k="k"></ui-array>
+        <ui-object v-if="val.type=='object'" :source="source" :schema="schema" :k="k"></ui-object>
       </div>
-    </div>
-  </template>
+    </template>
+
+
+    <template id="array_template">
+      <dl class="array">
+        <dt class="title">{{schema.title}}<el-button size="mini" @click="addChild(source[k])">增加</el-button></dt>
+        <dd v-for="(val,index) in source[k]">
+          <span>
+            <!--<el-button @click="addItem(index,source)" size="mini">增加</el-button>-->
+            <el-button @click="deleteItem(index,source[k])" size="mini">删除</el-button>
+            <el-button @click="moveItem(index,index-1,source[k])" size="mini" :disabled="index==0">上移</el-button>
+            <el-button @click="moveItem(index,index+1,source[k])" size="mini" :disabled="index==source[k].length-1">下移</el-button>
+          </span>
+          <render-components :source="source[k][index]" :schema="schema.array_item_schema" :k="k" :val="schema.array_item_schema"></render-components>
+
+        </dd>
+      </dl>
+    </template>
+
+
+    <template id="object_template">
+      <div class="object">
+        <render-components v-for="(val, key) in schema.object_schema" :source="source" :schema="schema.object_schema" :k="key" :val="val"></render-components>
+      </div>
+    </template>
+
+
+    <template id="text_template">
+      <div class="text">
+        <el-form-item :label="schema.title">
+          <el-input v-model="source[k]"></el-input>
+        </el-form-item>
+      </div>
+    </template>
+
+
+    <template id="checkbox_template">
+      <div class="checkbox">
+        1
+        <!--<el-form-item :label="schema.title">
+          <el-checkbox-group v-model="source[k]">
+            <el-checkbox :label="item" v-for="item in schema.options"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>-->
+      </div>
+    </template>
+
+
     <div id="app">
       {{source}}
       <el-form ref="form" label-width="150px">
-        <ui-generate :model="jsonSchema" :sourcekey="source"></ui-generate>
+        <ui-object :schema="schema" :source="source"></ui-object>
       </el-form>
     </div>
     <script>
-      //不可以分割的type：text,select,checkbox,string(单纯展示比如，订单编号)
-      Vue.component('get-components', {
-          template: '#getComponents',
-          props:["sourcekey","keyvalue","keyname"],
-          data: function () {
-              return {
-                  num:5000
+      // components继承这个东西
+      var comInherit=Vue.extend({
+          props: ['source','schema','k']
+      })
+      // 定义components
+      var components={
+          renderComponents:{
+              props: ["val"],//k=>schema的key val=>schema的key的value
+              template: '#render_template',
+              computed:{
+              },
+              methods:{
               }
           },
-          methods:{
-              deleteItem:function (index,sourceKey) {
-                  sourceKey.splice(index,1)
+          uiCheckbox:{
+              template: '#checkbox_template',
+          },
+          uiArray:{
+              template: '#array_template',
+              data: function () {
+                  return {
+                      num:5000
+                  }
               },
-              moveItem:function (first,last,sourceKey) {
-                  sourceKey[first] = sourceKey.splice(last, 1, sourceKey[first])[0];
-              },
-              addChild:function (sourceKey) {
-                  this.num++;
-                  var newdata= {
+              methods:{
+                  addChild:function (sourceKey) {
+                      this.num++;
+                      var newdata= {
                           "id":this.num,
-                          "number":this.num+"01",
-                          "childTask":[]
+                          "number":this.num+"01"
                       }
+                      sourceKey.unshift(newdata)
+                  },
+                  addItem:function (sourceKey) {
                       console.log(sourceKey)
-                  sourceKey.unshift(newdata)
+                  },
+                  deleteItem:function (index,sourceKey) {
+                      sourceKey.splice(index,1)
+                  },
+                  moveItem:function (first,last,sourceKey) {
+                      sourceKey[first] = sourceKey.splice(last, 1, sourceKey[first])[0];
+                  }
               }
-          }
-      })
-      Vue.component('ui-generate', {
-        template: '#uiGenerate',
-        props:{
-            "model":Object,
-            "sourcekey":Object
-        },
-        data: function () {
-            return {
-            }
-        }
-      })
+          },
+          uiObject:{
+              template: '#object_template'
+          },
+          uiText:{
+              template: '#text_template'
+          },
+
+      }
+      // 全局注册components
+      !function addComponets(obj) {
+          Object.keys(obj).forEach((ele) => {
+              Vue.component(ele, comInherit.extend(obj[ele]));
+          })
+      }(components);
       var source={
           "name":"endless",
           "sex":"男",
@@ -122,28 +148,11 @@
               {
                   "id":"1",
                   "number":"101",
-                  "childTask":[]
-              },
-              {
-                  "id":"2",
-                  "number":"201",
-                  "childTask":[
-                      {
-                        "id":"子1",
-                        "number":"子101"
-
-                      }
-                  ]
-              },
-              {
-                  "id":"3",
-                  "number":"301",
-                  "childTask":[]
               }
           ]
       }
       //对应的Schema文档,type
-      var jsonSchema= {
+      var schema= {
           "title": "配置文件",
           "type": "object",
           "object_schema": {
@@ -183,7 +192,16 @@
                               "type":"text",
                               "title":"任务详细内容",
                           },
-
+                          "area": {
+                              "type": "checkbox",
+                              "title": "区域",
+                              "options": [
+                                  "深圳",
+                                  "上海",
+                                  "北京",
+                                  "广州"
+                              ]
+                          },
                           childTask:{
                               type:"array",
                               "title":"子任务列表",
@@ -201,18 +219,16 @@
                                   }
                               }
                           }
-
                       }
                   }
               }
           }
       }
-        Vue.config.debug = true;
       var app=new Vue({
           el:'#app',
           data: function (){
               return {
-                  jsonSchema:jsonSchema,
+                  schema:schema,
                   source:source
               }
           },

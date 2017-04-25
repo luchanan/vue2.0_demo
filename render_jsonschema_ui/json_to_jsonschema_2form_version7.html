@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+    <style>
+      .array_title{
+        font-size: 24px;
+      }
+      .el-input{
+        width: 300px !important;
+      }
+    </style>
+  </head>
+  <body>
+  <template id="getComponents">
+    <div class="getComponents">
+      <!--type==>text-->
+      <el-form-item :label="keyvalue.title" v-if="keyvalue.type=='text'">
+        <el-input v-model="sourcekey[keyname]"></el-input>
+      </el-form-item>
+      <!--type==>text-->
+      <!--type==>checkbox-->
+      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='checkbox'">
+        <el-checkbox-group v-model="sourcekey[keyname]">
+          <el-checkbox :label="item" v-for="item in keyvalue.options"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <!--type==>checkbox-->
+      <!--type==>radio-->
+      <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='radio'">
+        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.options">{{item}}</el-radio>
+      </el-form-item>
+      <!--type==>radio-->
+      <ul class="array" v-if="keyvalue.type=='array'">
+        <li class="array_title">
+            <strong>{{keyvalue.title}}</strong>
+            <el-button @click="addChild(sourcekey[keyname])">＋添加</el-button>
+          </p>
+        </li>
+        <ul class="array_object">
+            <li v-for="(form_val,form_index) in sourcekey[keyname]" >
+              <ui-generate :sourcekey="sourcekey[keyname][form_index]" :model="keyvalue.array_item_schema" style="float: left"></ui-generate>
+              <el-button @click="addChild(sourcekey[keyname])">增加</el-button>
+              <el-button @click="deleteItem(form_index,sourcekey[keyname])">删除</el-button>
+              <el-button @click="moveItem(form_index,form_index-1,sourcekey[keyname])" :disabled="form_index==0">上移</el-button>
+              <el-button @click="moveItem(form_index,form_index+1,sourcekey[keyname])" :disabled="form_index==sourcekey[keyname].length-1">下移</el-button>
+              <div style="clear: both"></div>
+            </li>
+        </ul>
+      </ul>
+      <!--type==>array-->
+    </div>
+  </template>
+  <template id="uiGenerate">
+    <div class="uiGenerate">
+      <div v-for="(val,key) in model">
+        <div class="object" v-if="val==='object'">
+            <!--去判断每个properties的type-->
+            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val" v-for="(pro_val,pro_key) in model.object_schema"></get-components>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+    <div id="app">
+      {{source}}
+      <el-form ref="form" label-width="150px">
+        <ui-generate :model="jsonSchema" :sourcekey="source"></ui-generate>
+      </el-form>
+    </div>
+    <script>
+      //不可以分割的type：text,select,checkbox,string(单纯展示比如，订单编号)
+      Vue.component('get-components', {
+          template: '#getComponents',
+          props:["sourcekey","keyvalue","keyname"],
+          data: function () {
+              return {
+                  num:5000
+              }
+          },
+          methods:{
+              deleteItem:function (index,sourceKey) {
+                  sourceKey.splice(index,1)
+              },
+              moveItem:function (first,last,sourceKey) {
+                  sourceKey[first] = sourceKey.splice(last, 1, sourceKey[first])[0];
+              },
+              addChild:function (sourceKey) {
+                  this.num++;
+                  var newdata= {
+                          "id":this.num,
+                          "number":this.num+"01",
+                          "childTask":[]
+                      }
+                      console.log(sourceKey)
+                  sourceKey.unshift(newdata)
+              }
+          }
+      })
+      Vue.component('ui-generate', {
+        template: '#uiGenerate',
+        props:{
+            "model":Object,
+            "sourcekey":Object
+        },
+        data: function () {
+            return {
+            }
+        }
+      })
+      var source={
+          "name":"endless",
+          "sex":"男",
+          "area":['深圳','广州'],
+          "task":[
+              {
+                  "id":"1",
+                  "number":"101",
+                  "childTask":[]
+              },
+              {
+                  "id":"2",
+                  "number":"201",
+                  "childTask":[
+                      {
+                        "id":"子1",
+                        "number":"子101"
+
+                      }
+                  ]
+              },
+              {
+                  "id":"3",
+                  "number":"301",
+                  "childTask":[]
+              }
+          ]
+      }
+      //对应的Schema文档,type
+      var jsonSchema= {
+          "title": "配置文件",
+          "type": "object",
+          "object_schema": {
+              "name":{
+                  "type": "text",
+                  "title": "姓名"
+              },
+              "sex":{
+                  "type":"radio",
+                  "title":"性别",
+                  "options": [
+                      "男",
+                      "女"
+                  ]
+              },
+              "area": {
+                  "type": "checkbox",
+                  "title": "区域",
+                  "options": [
+                      "深圳",
+                      "上海",
+                      "北京",
+                      "广州"
+                  ]
+              },
+              "task":{
+                  "type":"array",
+                  "title":"任务列表",
+                  "array_item_schema":{
+                      "type":"object",
+                      "object_schema":{
+                          "id":{
+                              "type":"text",
+                              "title":"任务摘要",
+                          },
+                          "number":{
+                              "type":"text",
+                              "title":"任务详细内容",
+                          },
+
+                          childTask:{
+                              type:"array",
+                              "title":"子任务列表",
+                              array_item_schema:{
+                                  type:"object",
+                                  object_schema:{
+                                      "id":{
+                                          "type":"text",
+                                          "title":"子任务摘要",
+                                      },
+                                      "number":{
+                                          "type":"text",
+                                          "title":"子任务详细内容",
+                                      }
+                                  }
+                              }
+                          }
+
+                      }
+                  }
+              }
+          }
+      }
+        Vue.config.debug = true;
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  jsonSchema:jsonSchema,
+                  source:source
+              }
+          },
+          mounted:function () {
+
+          }
+      })
+    </script>
+  </body>
+</html>
