@@ -4,6 +4,7 @@
     <list default="true" id="8495320b-9578-47bd-ae1b-5e792fbe57e7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" afterPath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html" afterPath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,8 +25,8 @@
       <file leaf-file-name="json_to_jsonschema_2form1.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="91">
-              <caret line="123" column="5" lean-forward="false" selection-start-line="123" selection-start-column="5" selection-end-line="123" selection-end-column="5" />
+            <state relative-caret-position="331">
+              <caret line="36" column="106" lean-forward="false" selection-start-line="36" selection-start-column="106" selection-end-line="36" selection-end-column="106" />
               <folding>
                 <element signature="n#style#0;n#ui-generate#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -34,21 +35,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="json_to_jsonschema_2form_version3.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html">
+      <file leaf-file-name="json_to_jsonschema_2form_version6.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version6.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="30" column="28" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="30" selection-end-column="28" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="move_up_down.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/move_up_down.html">
+      <file leaf-file-name="json_to_jsonschema_2form_version2.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="652">
-              <caret line="58" column="70" lean-forward="true" selection-start-line="58" selection-start-column="18" selection-end-line="58" selection-end-column="70" />
+            <state relative-caret-position="195">
+              <caret line="101" column="29" lean-forward="false" selection-start-line="98" selection-start-column="23" selection-end-line="101" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="json_to_jsonschema_2form_version3.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="84" column="13" lean-forward="true" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="json_to_jsonschema_2form1_backup.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1_backup.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="106" column="49" lean-forward="true" selection-start-line="106" selection-start-column="49" selection-end-line="106" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -58,9 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>render</find>
-      <find>renderUI</find>
-      <find>jPath</find>
       <find>renderBasic</find>
       <find>concatKey</find>
       <find>task</find>
@@ -86,13 +104,17 @@
       <find>root</find>
       <find>jsonSchema</find>
       <find>add</find>
-      <find>items</find>
       <find>type=&quot;primary&quot;</find>
+      <find>method</find>
+      <find>methods</find>
+      <find>&quot;childTask&quot;:[]</find>
+      <find>items</find>
     </findStrings>
     <replaceStrings>
       <replace>img</replace>
       <replace>sourcekey</replace>
       <replace>keyname</replace>
+      <replace>array_item_schema</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -132,6 +154,7 @@
         <option value="$PROJECT_DIR$/render_jsonschema_ui/add_dynamic_componet.html" />
         <option value="$PROJECT_DIR$/i18n/index.html" />
         <option value="$PROJECT_DIR$/move_up_down.html" />
+        <option value="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html" />
         <option value="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" />
       </list>
     </option>
@@ -143,8 +166,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="33" />
+    <option name="y" value="23" />
+    <option name="width" value="1248" />
+    <option name="height" value="829" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -214,7 +239,6 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
-    <property name="FullScreen" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -313,26 +337,27 @@
       <workItem from="1492739523399" duration="13382000" />
       <workItem from="1492789057787" duration="50000" />
       <workItem from="1492824601149" duration="568000" />
-      <workItem from="1493001191536" duration="14077000" />
+      <workItem from="1493001191536" duration="22482000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164105000" />
+    <option name="totallyTimeSpent" value="172510000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="33" y="23" width="1248" height="829" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22903453" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug Logs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882273" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49932158" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5889047" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13284433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882273" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Salesforce" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -341,7 +366,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882273" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -379,17 +403,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#ui-generate#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -698,18 +711,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1_backup.html">
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="106" column="49" lean-forward="true" selection-start-line="106" selection-start-column="49" selection-end-line="106" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="17" column="32" lean-forward="true" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -724,13 +729,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="30" column="28" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="30" selection-end-column="28" />
+        <state relative-caret-position="34">
+          <caret line="84" column="13" lean-forward="true" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version4.html">
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1_backup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="106" column="49" lean-forward="true" selection-start-line="106" selection-start-column="49" selection-end-line="106" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="101" column="29" lean-forward="false" selection-start-line="98" selection-start-column="23" selection-end-line="101" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version6.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -740,8 +761,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="123" column="5" lean-forward="false" selection-start-line="123" selection-start-column="5" selection-end-line="123" selection-end-column="5" />
+        <state relative-caret-position="331">
+          <caret line="36" column="106" lean-forward="false" selection-start-line="36" selection-start-column="106" selection-end-line="36" selection-end-column="106" />
           <folding>
             <element signature="n#style#0;n#ui-generate#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#li#0;n#ul#0;n#ul#0;n#div#0;n#template#0;n#body#0;n#html#0;n#!!top" expanded="true" />

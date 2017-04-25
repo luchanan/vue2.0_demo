@@ -28,13 +28,13 @@
       <!--type==>checkbox-->
       <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='checkbox'">
         <el-checkbox-group v-model="sourcekey[keyname]">
-          <el-checkbox :label="item" v-for="item in keyvalue.options"></el-checkbox>
+          <el-checkbox :label="item" v-for="item in keyvalue.enum"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <!--type==>checkbox-->
       <!--type==>radio-->
       <el-form-item :label="keyvalue.title" v-for="" v-if="keyvalue.type=='radio'">
-        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.options">{{item}}</el-radio>
+        <el-radio class="radio" v-model="sourcekey[keyname]" :label="item" v-for="item in keyvalue.enum">{{item}}</el-radio>
       </el-form-item>
       <!--type==>radio-->
       <ul class="array" v-if="keyvalue.type=='array'">
@@ -45,7 +45,7 @@
         </li>
         <ul class="array_object">
             <li v-for="(form_val,form_index) in sourcekey[keyname]" >
-              <ui-generate :sourcekey="sourcekey[keyname][form_index]" :model="keyvalue.array_item_schema" style="float: left"></ui-generate>
+              <ui-generate :sourcekey="sourcekey[keyname][form_index]" :model="keyvalue.items" style="float: left"></ui-generate>
               <el-button @click="addChild(sourcekey[keyname])">增加</el-button>
               <el-button @click="deleteItem(form_index,sourcekey[keyname])">删除</el-button>
               <el-button @click="moveItem(form_index,form_index-1,sourcekey[keyname])" :disabled="form_index==0">上移</el-button>
@@ -62,7 +62,7 @@
       <div v-for="(val,key) in model">
         <div class="object" v-if="val==='object'">
             <!--去判断每个properties的type-->
-            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val" v-for="(pro_val,pro_key) in model.object_schema"></get-components>
+            <get-components :sourcekey="sourcekey" :keyname="pro_key" :keyvalue="pro_val" v-for="(pro_val,pro_key) in model.properties"></get-components>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
       var jsonSchema= {
           "title": "配置文件",
           "type": "object",
-          "object_schema": {
+          "properties": {
               "name":{
                   "type": "text",
                   "title": "姓名"
@@ -154,7 +154,7 @@
               "sex":{
                   "type":"radio",
                   "title":"性别",
-                  "options": [
+                  "enum": [
                       "男",
                       "女"
                   ]
@@ -162,7 +162,7 @@
               "area": {
                   "type": "checkbox",
                   "title": "区域",
-                  "options": [
+                  "enum": [
                       "深圳",
                       "上海",
                       "北京",
@@ -172,9 +172,9 @@
               "task":{
                   "type":"array",
                   "title":"任务列表",
-                  "array_item_schema":{
+                  "items":{
                       "type":"object",
-                      "object_schema":{
+                      "properties":{
                           "id":{
                               "type":"text",
                               "title":"任务摘要",
@@ -187,9 +187,9 @@
                           childTask:{
                               type:"array",
                               "title":"子任务列表",
-                              array_item_schema:{
+                              items:{
                                   type:"object",
-                                  object_schema:{
+                                  properties:{
                                       "id":{
                                           "type":"text",
                                           "title":"子任务摘要",
