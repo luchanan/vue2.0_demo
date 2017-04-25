@@ -24,6 +24,9 @@
         overflow: scroll;
         border: solid 1px #ddd
       }
+      .flex{
+        display: flex;
+      }
     </style>
   </head>
   <body>
@@ -35,7 +38,7 @@
         <ui-text v-if="val.type=='text'" :source="source" :schema="schema[k]" :k="k"></ui-text>
         <ui-checkbox v-if="val.type=='checkbox'" :source="source" :schema="schema[k]" :k="k"></ui-checkbox>
         <ui-radio v-if="val.type=='radio'" :source="source" :schema="schema[k]" :k="k"></ui-radio>
-        <ui-array v-if="val.type=='array'" :source="source" :schema="schema[k]" :k="k"></ui-array>
+        <ui-array v-if="val.type=='array'" :source="source" :schema="schema[k]" :k="k" :val="val"></ui-array>
         <ui-object v-if="val.type=='object'" :source="source" :schema="schema" :k="k"></ui-object>
       </div>
     </template>
@@ -44,15 +47,14 @@
     <template id="array_template">
       <dl class="array">
         <dt class="title">{{schema.title}}<el-button size="mini" @click="addChild(source[k])">增加</el-button></dt>
-        <dd v-for="(val,index) in source[k]">
-          <span>
+        <dd v-for="(val,index) in source[k]" class="flex">
+          <render-components :source="source[k][index]" :schema="schema.array_item_schema" :k="k" :val="schema.array_item_schema"></render-components>
+          <div>
             <!--<el-button @click="addItem(index,source)" size="mini">增加</el-button>-->
             <el-button @click="deleteItem(index,source[k])" size="mini">删除</el-button>
             <el-button @click="moveItem(index,index-1,source[k])" size="mini" :disabled="index==0">上移</el-button>
             <el-button @click="moveItem(index,index+1,source[k])" size="mini" :disabled="index==source[k].length-1">下移</el-button>
-          </span>
-          <render-components :source="source[k][index]" :schema="schema.array_item_schema" :k="k" :val="schema.array_item_schema"></render-components>
-
+          </div>
         </dd>
       </dl>
     </template>
@@ -121,11 +123,11 @@
       <el-row gutter="50">
         <el-col :span="6">
           <h5>原始数据</h5>
-          <pre contenteditable="true">{{source}}</pre>
+          <pre contenteditable="true" ref="jsonsource">{{source}}</pre>
         </el-col>
         <el-col :span="6">
           <h5>jsonschema</h5>
-          <pre contenteditable="true" ref="jsontext">{{schema}}</pre>
+          <pre contenteditable="true" ref="jsonshema">{{schema}}</pre>
           <el-button @click="generate($event)" size="mini">生成
           </el-button>
         </el-col>
@@ -138,14 +140,30 @@
       </el-row>
     </div>
     <script>
+      function getDefaultItem(objectDef) {
+          console.log(objectDef)
+          if(objectDef.type == 'array'){
+              return []
+          }
+          else if(objectDef.type == 'object'){
+              var result = {}
+              for(var i in objectDef.object_schema){
+                  result[i] = getDefaultItem(objectDef.object_schema[i])
+              }
+              return result
+          }
+          else{
+              //可能还有数字
+              return ""
+          }
+      }
       // components继承这个东西
       var comInherit=Vue.extend({
-          props: ['source','schema','k']
+          props: ['source','schema','k',"val"]//k=>schema的key val=>schema的key的value
       })
       // 定义components
       var components={
           renderComponents:{
-              props: ["val"],//k=>schema的key val=>schema的key的value
               template: '#render_template',
               computed:{
               },
@@ -170,16 +188,9 @@
               },
               methods:{
                   addChild:function (sourceKey) {
-                      console.log(sourceKey)
-                      this.num++;
-                      var newdata= {
-                          "id":this.num,
-                          "number":this.num+"01"
-                      }
-                      sourceKey.unshift(newdata)
-                  },
-                  addItem:function (sourceKey) {
-                      console.log(sourceKey)
+                      //增加一个默认值的处理，这里要修改
+                      console.log(this.val)
+                      sourceKey.unshift(getDefaultItem(this.schema.array_item_schema))
                   },
                   deleteItem:function (index,sourceKey) {
                       sourceKey.splice(index,1)
@@ -208,24 +219,7 @@
           "system_language":"英文",
           "language":"简体中文",
           "area":['深圳','广州'],
-          "task":[
-              {
-                  "id":"1",
-                  "number":"101",
-                  "childTask":[
-                      {
-                          "id":"子1",
-                          "number":"子101"
-
-                      }
-                  ]
-              },
-              {
-                  "id":"1",
-                  "number":"101",
-                  "childTask":[]
-              }
-          ]
+          "task":[]
       }
       //对应的Schema文档,type
       var schema= {
@@ -275,16 +269,12 @@
                               "type":"text",
                               "title":"任务详细内容",
                           },
-                          childTask:{
-                              type:"array",
+                          list:{
+                              "type":"array",
                               "title":"子任务列表",
-                              array_item_schema:{
-                                  type:"object",
-                                  object_schema:{
-                                      "id":{
-                                          "type":"text",
-                                          "title":"子任务摘要",
-                                      },
+                              "array_item_schema":{
+                                  "type":"object",
+                                  "object_schema":{
                                       "number":{
                                           "type":"text",
                                           "title":"子任务详细内容",

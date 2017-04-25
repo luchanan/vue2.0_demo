@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+
+    <div id="app">
+        {{value}}
+        <button v-on:click="updateValue">更新数据</button>
+        <k-child-components :label="schema.label" ref="real_component" :value="value" :type="schema.type" v-if="schema.type != 'array' && schema.type != 'object' "></k-child-components>
+        <k-object v-if="schema.type == 'object' " ref="real_component" :label="schema.label" :object_schema="schema.object_schema" :value="value"></k-object>
+        <k-array v-if="schema.type == 'array' " ref="real_component" :label="schema.label" :item_schema="schema.item_schema" :value="value"></k-object>
+    </div>
+
+    <template id="k-object">
+        <div class="k-object-wrapper">
+            <label>{{label}}</label>
+            <div v-for="(schema,field_key) in object_schema" >
+                <k-child-components :ref="field_key" :label="schema.label"  :value="value[field_key]" :type="schema.type" v-if="schema.type != 'array' && schema.type != 'object' "></k-child-components>
+                <k-object :ref="field_key" v-if="schema.type == 'object'"  :label="schema.label" :object_schema="schema.object_schema" :value="value[field_key]"></k-object>
+                <k-array :ref="field_key" v-if="schema.type == 'array'" :label="schema.label" :item_schema="schema.item_schema" :value="value[field_key]"></k-object>
+            </div>
+        </div>
+    </template>
+
+    <template id="k-array">
+        <div class="k-array-wrapper">
+            <label>{{label}}</label>
+            <button class="add_array_item" v-on:click="addItem">+</button>
+            <div v-for="(item,index) in value">
+                <div class="k-array-item-wrapper">
+                    <button class="del_array_item" v-on:click="deleteItem(index)">X</button>
+                    <button class="up_array_item" v-on:click="upItem(index)" v-if=" index > 0" >^</button>
+                    <button class="down_array_item" v-on:click="downItem(index)" v-if=" index < value.length-1 ">!</button>
+                    <k-child-components :label="item_schema.label" :ref=" 'child_'+ index " :value="item" :type="item_schema.type" v-if="item_schema.type != 'array' && item_schema.type != 'object' "></k-child-components>
+                    <k-object v-if="item_schema.type == 'object'" :ref=" 'child_'+ index " :label="item_schema.label" :object_schema="item_schema.object_schema" :value="item"></k-object>
+                    <k-array v-if="item_schema.type == 'array'" :ref=" 'child_'+ index " :label="item_schema.label" :object_schema="item_schema.item_schema" :value="item"></k-object>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="k-child-components">
+        <div class="v-child-components">
+            <k-string :label="label" ref="real_component" :value="value"></k-string>
+        </div>
+    </template>
+
+    <template id="k-string">
+        <div class="k-string">
+            <label>{{label}}</label> : <input v-model="value" >
+        </div>
+    </template>
+
+    <script>
+
+    var jsonSchemaString = {
+        type:"string",
+        label:"文章标题"
+    }
+
+    var jsonValueString = '人民的名义火热的背后'
+
+    var jsonSchema = {
+        type: "object",
+        label:"最热电视剧文章",
+        object_schema:{
+            title: {
+                type: "string",
+                label: "文章标题"
+            },
+            sub_title: {
+                type: "string",
+                label: "文章副标题"
+            }
+        }
+    }
+
+    var jsonSchema = {
+        type: "object",
+        label:"最热电视剧文章",
+        object_schema:{
+            title: {
+                type: "string",
+                label: "文章标题"
+            },
+            sub_title: {
+                type: "string",
+                label: "文章副标题"
+            },
+            thumbnails: {
+                type: "string",
+                label: "文章缩略图",
+                size : "200x200"
+            },
+            tags: {
+                type: "array",
+                label: "标签",
+                item_schema: {
+                    type: "object",
+                    object_schema: {
+                        title:{
+                            type:"string",
+                            label:"标题"
+                        },
+                        count:{
+                            type:"string",
+                            label:"热度"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    var jsonValue = {
+    }
+
+
+
+    var jsonSchemaArray = {
+        type: "array",
+        label:"Tags",
+        item_schema:{
+            type: "string",
+            label: "标签"
+        }
+    }
+
+    /***
+      *
+      */
+    function getDefaultItem(objectDef) {
+        if(objectDef.type == 'array'){
+            return []
+        }
+        else if(objectDef.type == 'object'){
+            var result = {}
+            for(var i in objectDef.object_schema){
+                result[i] = getDefaultItem(objectDef.object_schema[i])
+            }
+            return result
+        }
+        else{
+            //可能还有数字
+            return ""
+        }
+    }
+
+    var jsonValueArray = []
+
+    Vue.component('k-child-components', {
+        template: '#k-child-components',
+        data: function(){
+            return {}
+        },
+        props:["label","value","type"],
+        methods:{
+            getValue:function(){
+                return this.$refs.real_component.getValue()
+            }
+        }
+    })
+
+    Vue.component("k-string", {
+        template: '#k-string',
+        data: function(){
+            return {
+            }
+        },
+        watch:{
+            value:'onValueChange'
+        },
+        props:["label","value"],
+        methods:{
+            onValueChange:function(){
+            },
+            getValue:function(){
+                return this.value;
+            }
+        },
+        mounted:function(){
+
+        }
+    })
+
+    Vue.component("k-object", {
+        template: '#k-object',
+        data: function(){
+            return {
+            }
+        },
+        props:["object_schema","value","label"],
+        methods: {
+            getValue:function(){
+                var value = {}
+                for(var i in this.$refs){
+                    //这里不知道为什么一定要加一个0, 大概是因为是动态新增的ref
+                    value[i]= this.$refs[i][0].getValue()
+                }
+                return value
+            }
+        }
+    })
+
+    Vue.component("k-array", {
+        template: "#k-array",
+        data : function(){
+            return {}
+        },
+        props:["item_schema","value","label"],
+        mounted:function(){
+            this.value = this.value || []
+        },
+        methods: {
+            getValue:function(){
+                var value = []
+                for(var i=0;i<this.value.length;i++){
+                    var child = this.$refs["child_"+ i]
+                    value.push(child[0].getValue())
+                }
+                return value
+            },
+            getItemValue:function(i){
+                var child = this.$refs["child_"+ i]
+                return child[0].getValue()
+            },
+            addItem:function(){
+                console.log(this.item_schema)
+                this.value.push(getDefaultItem(this.item_schema))
+            },
+            deleteItem:function(index) {
+                for(var i=0;i<this.value.length;i++){
+                    Vue.set(this.value, i, this.getItemValue(i))
+                }
+                this.value.splice(index,1)
+            },
+            upItem:function(index){
+                for(var i=0;i<this.value.length;i++){
+                    Vue.set(this.value, i, this.getItemValue(i))
+                }
+                var currentItem = this.value[index]
+                var preItem = this.value[index-1]
+                Vue.set(this.value, index, preItem)
+                Vue.set(this.value, index-1, currentItem)
+            },
+            downItem:function(index){
+                for(var i=0;i<this.value.length;i++){
+                    Vue.set(this.value, i, this.getItemValue(i))
+                }
+                var currentItem = this.value[index]
+                var nextItem = this.value[index+1]
+                Vue.set(this.value, index, nextItem)
+                Vue.set(this.value, index+1, currentItem)
+            }
+        }
+    })
+
+    Vue.config.debug = true;
+    var app = new Vue({
+        el:'#app',
+        data: {
+          schema : jsonSchema,
+          value : jsonValue
+        },
+        methods: {
+            updateValue:function(){
+                this.value = this.$refs.real_component.getValue()
+            }
+        }
+    })
+    </script>
+  </body>
+</html>
