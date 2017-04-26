@@ -9,20 +9,16 @@
     <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
     <title></title>
     <style>
-      *{
-        margin: 0;
-        padding: 0;
-      }
       .array_title{
         font-size: 14px;
-      }
-      .array{
-        /*margin-left: 150px;*/
       }
       [contenteditable]{
         max-height: 500px;
         overflow: scroll;
         border: solid 1px #ddd
+      }
+      .array:first-child{
+        margin-left: 10px;
       }
       .array_add{
         margin-bottom: 22px;
@@ -38,7 +34,6 @@
     <template id="render_template">
       <div class="render_components">
         <ui-text v-if="schema.type=='text'" :schema="schema" :source="source" :schema_key="schema_key"></ui-text>
-        <ui-checkbox v-if="schema.type=='checkbox'" :schema="schema" :source="source" :schema_key="schema_key"></ui-checkbox>
         <ui-object v-if="schema.type=='object'" :schema="schema.object_schema" :source="source"></ui-object>
         <ui-array v-if="schema.type=='array'" :schema="schema.array_item_schema" :source="source" :schema_key="schema_key" :title="schema.title"></ui-array>
       </div>
@@ -52,20 +47,19 @@
             <el-tab-pane :label="title" name="first"></el-tab-pane>
           </el-tabs>
         </dt>
-        <!--<dd v-for="(val,index) in source[schema_key]" class="array_item_list">-->
-          <el-row class="array_item" :gutter="14" v-for="(val,index) in source[schema_key]">
+        <dd v-for="(val,index) in source[schema_key]" class="array_item">
+          <el-row :gutter="14" >
             <el-col :span="16">
                 <!--array为object或者其他类型这里需要处理一下子-->
                 <render-components :source="arraysource(schema.type,source[schema_key],index)" :schema="schema" :schema_key="index"></render-components>
             </el-col>
             <el-col :span="8" class="array_btns">
-                <!--<el-button @click="addItem(index,source)" size="mini">增加</el-button>-->
                 <el-button @click="deleteItem(index,source[schema_key])"  class="el-icon-delete2" ></el-button>
                 <el-button @click="moveItem(index,index-1,source[schema_key])" :disabled="index==0" class="el-icon-arrow-up"></el-button>
                 <el-button @click="moveItem(index,index+1,source[schema_key])" :disabled="index==source[schema_key].length-1" class="el-icon-arrow-down"></el-button>
             </el-col>
           </el-row>
-        <!--</dd>-->
+        </dd>
         <el-row class="array_add" :gutter="14">
           <el-col :offset="16"><el-button @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></el-col>
         </el-row>
@@ -158,6 +152,10 @@
     <script>
       function getDefaultItem(objectDef) {
           if(objectDef.type == 'array'){
+              //objectDef.array_item_schema.type也许有很多种类型
+              if(objectDef.array_item_schema.type=='text'){
+                return ['']
+              }
               return []
           }
           else if(objectDef.type == 'object'){
@@ -243,31 +241,73 @@
           })
       }(components);
       var source={
+          "name":"endless",
+          "system_language":"英文",
+          "language":"简体中文",
           "area":['深圳','广州'],
-          "nestedList": [
-              [
-                  "lorem",
-                  "ipsum"
-              ],
-              [
-                  "dolor"
-              ]
-          ]
+          "task":[]
       }
       //对应的Schema文档,type
       var schema= {
           "title": "配置文件",
           "type": "object",
           "object_schema": {
-              "nestedList": {
-                  "type": "array",
-                  "title": "Nested list",
-                  "array_item_schema": {
-                      "type": "array",
-                      "title": "Inner list",
-                      "array_item_schema": {
-                          "type": "text",
-                          "title": "lorem ipsum"
+              "name":{
+                  "type": "text",
+                  "title": "姓名"
+              },
+              "system_language":{
+                  "type":"string",
+                  "title":"当前网站语言"
+              },
+              "language":{
+                  "type":"radio",
+                  "title":"选择语言",
+                  "options": [
+                      "简体中文",
+                      "繁体中文",
+                      "英文",
+                      "韩语",
+                      "泰语",
+                  ]
+              },
+              "area": {
+                  "type": "checkbox",
+                  "title": "区域",
+                  "options": [
+                      "深圳",
+                      "上海",
+                      "北京",
+                      "广州"
+                  ]
+              },
+              "task":{
+                  "type":"array",
+                  "title":"任务列表",
+                  "array_item_schema":{
+                      "type":"object",
+                      "object_schema":{
+                          "id":{
+                              "type":"text",
+                              "title":"任务摘要",
+                          },
+                          "number":{
+                              "type":"text",
+                              "title":"任务详细内容",
+                          },
+                          list:{
+                              "type":"array",
+                              "title":"子任务列表",
+                              "array_item_schema":{
+                                  "type":"object",
+                                  "object_schema":{
+                                      "number":{
+                                          "type":"text",
+                                          "title":"子任务详细内容",
+                                      }
+                                  }
+                              }
+                          }
                       }
                   }
               }
