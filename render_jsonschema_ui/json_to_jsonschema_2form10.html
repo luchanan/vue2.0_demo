@@ -11,21 +11,18 @@
     <style>
       *{
         margin: 0;
-        padding: 0;
+        padding: 0s;
       }
       .array_title{
-        font-size: 14px;
+        font-size: 24px;
       }
-      .array{
-        /*margin-left: 150px;*/
+      .el-input{
+        width: 300px !important;
       }
       [contenteditable]{
         max-height: 500px;
         overflow: scroll;
         border: solid 1px #ddd
-      }
-      .array_add{
-        margin-bottom: 22px;
       }
       .flex{
         display: flex;
@@ -38,7 +35,6 @@
     <template id="render_template">
       <div class="render_components">
         <ui-text v-if="schema.type=='text'" :schema="schema" :source="source" :schema_key="schema_key"></ui-text>
-        <ui-checkbox v-if="schema.type=='checkbox'" :schema="schema" :source="source" :schema_key="schema_key"></ui-checkbox>
         <ui-object v-if="schema.type=='object'" :schema="schema.object_schema" :source="source"></ui-object>
         <ui-array v-if="schema.type=='array'" :schema="schema.array_item_schema" :source="source" :schema_key="schema_key" :title="schema.title"></ui-array>
       </div>
@@ -47,35 +43,25 @@
 
     <template id="array_template">
       <dl class="array">
-        <dt class="array_title">
-          <el-tabs v-model="arraySelected">
-            <el-tab-pane :label="title" name="first"></el-tab-pane>
-          </el-tabs>
-        </dt>
-        <!--<dd v-for="(val,index) in source[schema_key]" class="array_item_list">-->
-          <el-row class="array_item" :gutter="14" v-for="(val,index) in source[schema_key]">
-            <el-col :span="16">
-                <!--array为object或者其他类型这里需要处理一下子-->
-                <render-components :source="arraysource(schema.type,source[schema_key],index)" :schema="schema" :schema_key="index"></render-components>
-            </el-col>
-            <el-col :span="8" class="array_btns">
-                <!--<el-button @click="addItem(index,source)" size="mini">增加</el-button>-->
-                <el-button @click="deleteItem(index,source[schema_key])"  class="el-icon-delete2" ></el-button>
-                <el-button @click="moveItem(index,index-1,source[schema_key])" :disabled="index==0" class="el-icon-arrow-up"></el-button>
-                <el-button @click="moveItem(index,index+1,source[schema_key])" :disabled="index==source[schema_key].length-1" class="el-icon-arrow-down"></el-button>
-            </el-col>
-          </el-row>
-        <!--</dd>-->
-        <el-row class="array_add" :gutter="14">
-          <el-col :offset="16"><el-button @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></el-col>
-        </el-row>
+        <dt class="title">{{title}}<el-button size="mini" @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></dt>
+        <dd v-for="(val,index) in source[schema_key]" class="flex">
+          <!--array为object或者其他类型这里需要处理一下子-->
+          <render-components :source="arraysource(schema.type,source[schema_key],index)" :schema="schema" :schema_key="index"></render-components>
+          <div>
+            <span><i class="el-icon-plus"></i></span>
+            <!--<el-button @click="addItem(index,source)" size="mini">增加</el-button>-->
+            <el-button @click="deleteItem(index,source[schema_key])" size="mini" >删除</el-button>
+            <el-button @click="moveItem(index,index-1,source[schema_key])" size="mini" :disabled="index==0">上移</el-button>
+            <el-button @click="moveItem(index,index+1,source[schema_key])" size="mini" :disabled="index==source[schema_key].length-1">下移</el-button>
+          </div>
+        </dd>
       </dl>
     </template>
 
 
     <template id="object_template">
       <div class="object">
-        <div v-for="(val, key) in schema" class="object_item">
+        <div v-for="(val, key) in schema">
           <render-components :source="source" :schema="schema[key]" :schema_key="key"></render-components>
         </div>
       </div>
@@ -103,7 +89,7 @@
     <template id="checkbox_template">
       <div class="checkbox">
         <el-form-item :label="schema.title">
-          <el-checkbox-group v-model="source[schema_key]">
+          <el-checkbox-group v-model="source[k]">
             <el-checkbox :label="item" v-for="item in schema.options"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -167,13 +153,6 @@
               }
               return result
           }
-          else if(objectDef.type == 'checkbox'){
-              var result=[]
-              for(item in objectDef.options){
-                  result.push(objectDef.options[item])
-              }
-              return result
-          }
           else{
               //可能还有数字
               return ""
@@ -206,7 +185,7 @@
               props: ['title'],
               data: function () {
                   return {
-                      arraySelected:'first'
+                      num:5000
                   }
               },
               methods:{
@@ -218,7 +197,7 @@
                   },
                   addChild:function (sourceKey) {
                       //增加一个默认值的处理，这里要修改
-                      sourceKey.push(getDefaultItem(this.schema))
+                      sourceKey.unshift(getDefaultItem(this.schema))
                   },
                   deleteItem:function (index,sourceKey) {
                       sourceKey.splice(index,1)
@@ -243,31 +222,40 @@
           })
       }(components);
       var source={
-          "area":['深圳','广州'],
-          "nestedList": [
-              [
-                  "lorem",
-                  "ipsum"
-              ],
-              [
-                  "dolor"
-              ]
-          ]
+          "task":[]
       }
       //对应的Schema文档,type
       var schema= {
           "title": "配置文件",
           "type": "object",
           "object_schema": {
-              "nestedList": {
-                  "type": "array",
-                  "title": "Nested list",
+              "task":{
+                  "type":"array",
+                  "title":"任务列表",
                   "array_item_schema": {
-                      "type": "array",
-                      "title": "Inner list",
-                      "array_item_schema": {
-                          "type": "text",
-                          "title": "lorem ipsum"
+                      "type": "object",
+                      "object_schema": {
+                          "id": {
+                              "type": "text",
+                              "title": "任务摘要",
+                          },
+                          "number": {
+                              "type": "text",
+                              "title": "任务详细内容",
+                          },
+                          list:{
+                              "type":"array",
+                              "title":"子任务列表",
+                              "array_item_schema":{
+                                  "type":"object",
+                                  "object_schema":{
+                                      "number":{
+                                          "type":"text",
+                                          "title":"子任务详细内容",
+                                      }
+                                  }
+                              }
+                          }
                       }
                   }
               }
@@ -279,11 +267,8 @@
               schema:schema,
               source:source
           },
-          created:function () {
-              //this.source=getDefaultItem(this.schema)
-          },
           mounted:function () {
-              console.log(this.source)
+
           },
           methods: {
               generate:function () {
