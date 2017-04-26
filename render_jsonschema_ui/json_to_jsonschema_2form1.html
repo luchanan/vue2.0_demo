@@ -7,6 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
     <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <script src="Sortable.js"></script>
+    <script src="vuedraggable.js"></script>
     <title></title>
     <style>
       .array_title{
@@ -43,10 +45,17 @@
     <template id="array_template">
       <dl class="array">
         <dt class="array_title">
-          <el-tabs v-model="arraySelected">
-            <el-tab-pane :label="title" name="first"></el-tab-pane>
-          </el-tabs>
+          <el-row gutter="50">
+            <el-col :span="16">
+
+              <el-tabs v-model="arraySelected">
+                <el-tab-pane :label="title" name="first"></el-tab-pane>
+              </el-tabs>
+            </el-col>
+            <el-col :span="8"><el-button @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></el-col>
+          </el-row>
         </dt>
+        <draggable v-model="source[schema_key]" @start="drag=true" @end="drag=false">
         <dd v-for="(val,index) in source[schema_key]" class="array_item">
           <el-row :gutter="14" >
             <el-col :span="16">
@@ -60,9 +69,7 @@
             </el-col>
           </el-row>
         </dd>
-        <el-row class="array_add" :gutter="14">
-          <el-col :offset="16"><el-button @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></el-col>
-        </el-row>
+        </draggable>
       </dl>
     </template>
 
@@ -88,7 +95,7 @@
       <div class="string">
 
         <el-form-item :label="schema.title">
-          <span>{{source[k]}}</span>
+          <span>{{source[schema_key]}}</span>
         </el-form-item>
       </div>
     </template>
@@ -107,7 +114,7 @@
     <template id="radio_template">
       <div class="radio">
         <el-form-item :label="schema.title">
-        <el-radio class="radio" v-model="source[k]" :label="item" v-for="item in schema.options">{{item}}</el-radio>
+        <el-radio class="radio" v-model="source[schema_key]" :label="item" v-for="item in schema.options">{{item}}</el-radio>
         </el-form-item>
       </div>
     </template>
@@ -150,18 +157,28 @@
       </el-row>
     </div>
     <script>
-      function getDefaultItem(objectDef) {
+      function getDefaultItem(objectDef,options) {
+          var frommInit=typeof options==='undefined'?false:true;
           if(objectDef.type == 'array'){
               //objectDef.array_item_schema.type也许有很多种类型
               if(objectDef.array_item_schema.type=='text'){
                 return ['']
+              }
+              if(options!=undefined){
+                  return options;
+
               }
               return []
           }
           else if(objectDef.type == 'object'){
               var result = {}
               for(var i in objectDef.object_schema){
-                  result[i] = getDefaultItem(objectDef.object_schema[i])
+                  if(!frommInit){
+                    result[i] = getDefaultItem(objectDef.object_schema[i])
+                  }
+                  else{
+                      result[i] = getDefaultItem(objectDef.object_schema[i],options[i])
+                  }
               }
               return result
           }
@@ -174,12 +191,20 @@
           }
           else{
               //可能还有数字
+              if(options!=undefined){
+                  return options
+              }
               return ""
           }
       }
       // components继承这个东西
       var comInherit=Vue.extend({
-          props: ['source','schema','schema_key',"val"]//k=>schema的key val=>schema的key的value
+          props: ['source','schema','schema_key',"val"],//k=>schema的key val=>schema的key的value
+          data:function () {
+              return{
+                  drag:false
+              }
+          }
       })
       // 定义components
       var components={
@@ -241,11 +266,10 @@
           })
       }(components);
       var source={
-          "name":"endless",
+
           "system_language":"英文",
           "language":"简体中文",
-          "area":['深圳','广州'],
-          "task":[]
+          "area":['深圳','广州']
       }
       //对应的Schema文档,type
       var schema= {
@@ -320,10 +344,10 @@
               source:source
           },
           created:function () {
-              //this.source=getDefaultItem(this.schema)
+              this.source=getDefaultItem(this.schema,this.source)
           },
           mounted:function () {
-              console.log(this.source)
+              //console.log(this.source)
           },
           methods: {
               generate:function () {
