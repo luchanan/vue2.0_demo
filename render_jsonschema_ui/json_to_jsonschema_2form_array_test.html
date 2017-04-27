@@ -7,15 +7,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
     <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <script src="Sortable.js"></script>
     <script src="vuedraggable.js"></script>
     <title></title>
     <style>
       form{
         padding: 10px;
-      }
-      v-cloak{
-        display: none !important;
       }
       [contenteditable]{
         max-height: 500px;
@@ -46,14 +44,6 @@
         margin: 0;
         border: 0;
       }
-      .clearfix:after {
-        visibility: hidden;
-        display: block;
-        font-size: 0;
-        content: " ";
-        clear: both;
-        height: 0;
-      }
     </style>
   </head>
   <body>
@@ -62,9 +52,6 @@
     <template id="render_template">
       <div class="render_components">
         <ui-text v-if="schema.type=='text'" :schema="schema" :source="source" :schema_key="schema_key"></ui-text>
-        <ui-string v-if="schema.type=='string'" :schema="schema" :source="source" :schema_key="schema_key"></ui-string>
-        <ui-checkbox v-if="schema.type=='checkbox'" :schema="schema" :source="source" :schema_key="schema_key"></ui-checkbox>
-        <ui-radio v-if="schema.type=='radio'" :schema="schema" :source="source" :schema_key="schema_key"></ui-radio>
         <ui-object v-if="schema.type=='object'" :schema="schema.object_schema" :source="source" :title="schema.title"></ui-object>
         <ui-array v-if="schema.type=='array'" :schema="schema.array_item_schema" :source="source" :schema_key="schema_key" :title="schema.title"></ui-array>
       </div>
@@ -155,26 +142,23 @@
     </template>
 
 
-    <div id="app" v-cloak>
+    <div id="app">
       <el-row gutter="50">
         <el-col :span="6">
-          <h5>source data</h5>
-          <div id="prettyPrintJson">
-
-          </div>
+          <h5>原始数据</h5>
           <pre contenteditable="true" ref="jsonsource">{{source}}</pre>
         </el-col>
         <el-col :span="6">
-          <h5>json schema</h5>
+          <h5>jsonschema</h5>
           <pre contenteditable="true" ref="jsonshema">{{schema}}</pre>
-          <el-button @click="generate($event)" size="mini">generate
+          <el-button @click="generate($event)" size="mini">生成
           </el-button>
         </el-col>
         <el-col :span="12">
-          <h5>render ui components</h5>
+          <h5>生成的ui</h5>
           <el-form ref="form" label-position="right" label-width="150px">
             <render-components :schema="schema" :source="source"></render-components>
-            <el-button type="primary" @click="submit">submit</el-button>
+            <el-button type="primary">提交</el-button>
           </el-form>
         </el-col>
       </el-row>
@@ -206,16 +190,11 @@
               return result
           }
           else if(objectDef.type == 'checkbox'){
-              if(options!=undefined){
-                  return options;
-              }
-              return []
-          }
-          else if(objectDef.type == 'radio'){
-              if(options!=undefined){
-                  return options;
-              }
-              return ''
+//              var result=[]
+//              for(item in objectDef.options){
+//                  result.push(objectDef.options[item])
+//              }
+//              return result
           }
           else{
               //可能还有数字
@@ -294,26 +273,47 @@
               Vue.component(ele, comInherit.extend(obj[ele]));
           })
       }(components);
-      var source= {
-
+      var source={
+          "title": "My current tasks",
+          "tasks": [
+              {
+                  "title": "My first task",
+                  "details": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+              },
+              {
+                  "title": "My second task",
+                  "details": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+              }
+          ]
       }
       //对应的Schema文档,type
       var schema= {
-          "title": "A registration form",
+          "title": "A list of tasks",
           "type": "object",
           "object_schema": {
-              "nestedList": {
+              "title": {
+                  "type": "text",
+                  "title": "Task list title"
+              },
+              "tasks": {
                   "type": "array",
-                  "title": "Nested list",
+                  "title": "Tasks",
                   "array_item_schema": {
-                      "type": "array",
-                      "title": "Inner list",
-                      "array_item_schema": {
-                          "type": "text",
-                          "title": "Inner list",
+                      "type": "object",
+                      "object_schema": {
+                          "title": {
+                              "type": "text",
+                              "title": "Title",
+                              "description": "A sample title"
+                          },
+                          "details": {
+                              "type": "text",
+                              "title": "Task details",
+                              "description": "Enter the task details"
+                          }
                       }
                   }
-              },
+              }
           }
       }
       var app=new Vue({
@@ -333,25 +333,10 @@
                   var source=JSON.parse(this.$refs.jsonsource.innerHTML)
                   var schema=JSON.parse(this.$refs.jsonshema.innerHTML)
                   this.schema=schema;
-                  this.source=getDefaultItem(schema,source);
-                  //会输出__ob__的get和set
-                  //console.log(this.source)
-                  //输出不带__ob__的get和set
-                  //console.log(JSON.parse(JSON.stringify(this.source)))
-                  this.$refs.jsonsource.innerHTML=JSON.stringify(JSON.parse(JSON.stringify(this.source)))
-              },
-              submit:function () {
-                  console.log(this.$data.source)
+                  this.source=source;
               }
           }
       })
-      //prettyPrintJson(source)
-      function prettyPrintJson(str) {
-          var pre=document.createElement('pre');
-          pre.setAttribute('contenteditable','true');
-          document.getElementById("prettyPrintJson").innerHTML='';
-          document.getElementById("prettyPrintJson").appendChild(pre);
-      }
     </script>
   </body>
 </html>
