@@ -21,11 +21,11 @@
         padding: 10px;
       }
       .array fieldset{
-        margin-left: 20px;
+        /*margin-left: 20px;*/
       }
-      /*.array [position="array_root"]{
+      .array [position="array_root"]{
         margin-left: 0px;
-      }*/
+      }
       [position="object_root"] > legend{
         background-color: #d9edf7;
         border-bottom: 0;
@@ -88,8 +88,8 @@
     </template>
     <template id="array_template">
       <div class="array">
-        <fieldset :id="source[schema_key]">
-          <legend class="clearfix">{{title}}<el-button size="mini" @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></legend>
+        <fieldset :position="isArrayRoot">
+          <legend class="clearfix">{{title}}<el-button @click="addChild(source[schema_key])" class="el-icon-plus"></el-button></legend>
           <draggable v-model="source[schema_key]" @start="drag=true" @end="drag=false" class="array_item_list">
             <div v-for="(val,index) in source[schema_key]" class="array_item">
               <el-row :gutter="14" >
@@ -98,9 +98,9 @@
                     <render-components :source="arraysource(schema.type,source[schema_key],index)" :schema="schema" :schema_key="index"></render-components>
                 </el-col>
                 <el-col :span="8" class="array_btns">
-                    <el-button size="mini" @click="deleteItem(index,source[schema_key])"  class="el-icon-delete2" ></el-button>
-                    <el-button size="mini" @click="moveItem(index,index-1,source[schema_key])" :disabled="index==0" class="el-icon-arrow-up"></el-button>
-                    <el-button size="mini" @click="moveItem(index,index+1,source[schema_key])" :disabled="index==source[schema_key].length-1" class="el-icon-arrow-down"></el-button>
+                    <el-button @click="deleteItem(index,source[schema_key])"  class="el-icon-delete2" ></el-button>
+                    <el-button @click="moveItem(index,index-1,source[schema_key])" :disabled="index==0" class="el-icon-arrow-up"></el-button>
+                    <el-button @click="moveItem(index,index+1,source[schema_key])" :disabled="index==source[schema_key].length-1" class="el-icon-arrow-down"></el-button>
                 </el-col>
               </el-row>
             </div>
@@ -123,7 +123,7 @@
     <template id="text_template">
       <div class="text">
         <el-form-item :label="schema.title">
-          <el-input v-model="source[schema_key]" size="small"></el-input>
+          <el-input v-model="source[schema_key]"></el-input>
         </el-form-item>
       </div>
     </template>
@@ -329,7 +329,7 @@
           })
       }(components);
       var source= {
-          nestedList:[[1,2,3]]
+
       }
       //对应的Schema文档,type
       var schema= {

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8495320b-9578-47bd-ae1b-5e792fbe57e7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_array_test.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" afterPath="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" />
     </list>
@@ -25,18 +24,8 @@
       <file leaf-file-name="json_to_jsonschema_2form1.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="347" column="8" lean-forward="false" selection-start-line="347" selection-start-column="8" selection-end-line="347" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="json_to_jsonschema_2form_array_test.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_array_test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3435">
-              <caret line="229" column="12" lean-forward="false" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
+            <state relative-caret-position="437">
+              <caret line="171" column="15" lean-forward="false" selection-start-line="171" selection-start-column="15" selection-end-line="171" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -46,23 +35,14 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>radion</find>
-      <find>render_components</find>
-      <find>text</find>
-      <find>arraySource</find>
-      <find>console</find>
-      <find>删除</find>
-      <find>unshi</find>
       <find>k</find>
       <find>set</find>
       <find>item</find>
       <find>&lt;div class=&quot;render_components&quot;&gt;</find>
-      <find>array</find>
       <find>extend</find>
       <find>cons</find>
       <find>addChild</find>
       <find>title</find>
-      <find>object</find>
       <find>fieldset</find>
       <find>array_item</find>
       <find>getDefaultItem</find>
@@ -73,9 +53,18 @@
       <find>radio</find>
       <find>submit</find>
       <find>ui</find>
-      <find>source</find>
       <find>pre</find>
       <find>prettyPrintJson</find>
+      <find>methods</find>
+      <find>pos</find>
+      <find>arrayRoot</find>
+      <find>object_root</find>
+      <find>object</find>
+      <find>array</find>
+      <find>Nested</find>
+      <find>plus</find>
+      <find>input</find>
+      <find>source</find>
     </findStrings>
     <replaceStrings>
       <replace>img</replace>
@@ -126,6 +115,7 @@
         <option value="$PROJECT_DIR$/render_jsonschema_ui/json_schema_2_form_test.html" />
         <option value="$PROJECT_DIR$/render_jsonschema_ui/vue_draggable.html" />
         <option value="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version1.html" />
+        <option value="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version10.html" />
         <option value="$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html" />
       </list>
     </option>
@@ -156,8 +146,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -186,6 +174,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -197,16 +187,16 @@
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/render_jsonschema_ui" />
-      <recent name="$PROJECT_DIR$/render_tree_view" />
-      <recent name="$PROJECT_DIR$/ui_json_success" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/render_jsonschema_ui" />
       <recent name="$PROJECT_DIR$/i18n" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/../../../.." />
+      <recent name="$PROJECT_DIR$/ui_json_success" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/render_jsonschema_ui" />
+      <recent name="$PROJECT_DIR$/render_tree_view" />
       <recent name="$PROJECT_DIR$/ui_json_success" />
     </key>
   </component>
@@ -295,11 +285,12 @@
       <workItem from="1492824601149" duration="568000" />
       <workItem from="1493001191536" duration="92481000" />
       <workItem from="1493267207476" duration="68000" />
+      <workItem from="1493351854874" duration="10563000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="242577000" />
+    <option name="totallyTimeSpent" value="253140000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="829" extended-state="6" />
@@ -367,20 +358,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dynamic_v_module_multi_array.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dynamic_v_module_static_value.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dynamic_v_module.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -702,16 +679,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_array_test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3435">
-          <caret line="229" column="12" lean-forward="false" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
+        <state relative-caret-position="197">
+          <caret line="60" column="17" lean-forward="false" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form11.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form_version10.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/render_jsonschema_ui/json_to_jsonschema_2form1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="347" column="8" lean-forward="false" selection-start-line="347" selection-start-column="8" selection-end-line="347" selection-end-column="8" />
+        <state relative-caret-position="437">
+          <caret line="171" column="15" lean-forward="false" selection-start-line="171" selection-start-column="15" selection-end-line="171" selection-end-column="15" />
           <folding />
         </state>
       </provider>
