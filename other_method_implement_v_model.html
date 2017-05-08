@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <template id="test-template">
+    <div class="test">
+      <input type="text" :value="value" @input="update($event.target.value)">
+    </div>
+  </template>
+    <div id="app">
+      <test v-model="num"></test>
+    </div>
+    <script>
+        Vue.component('test', {
+            template: '#test-template',
+            props:['value'],
+            methods: {
+                update:function (newvalue) {
+                    console.log(this.value)
+                    this.$emit('input', newvalue)//这里就和value的值同步
+                }
+            }
+        })
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  num:'',
+              }
+          },
+          mounted:function () {
+          },
+          methods:{
+
+          }
+      })
+    </script>
+  </body>
+</html>

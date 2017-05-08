@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/1.2.8/index.js"></script>
+    <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
+    <title></title>
+  </head>
+  <body>
+  <template id="test-template">
+    <div class="test">
+      <input type="button" @click="childClick" value="触发父元素方法">
+    </div>
+  </template>
+    <div id="app">
+      <test></test>
+    </div>
+    <script>
+        Vue.component('test', {
+            template: '#test-template',
+            methods: {
+                childClick:function () {
+                    // 触发事件
+                    this.$parent.$emit('parentMethod', 'form child');
+                }
+            }
+        })
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  model:[1,2,3],
+                  num:0,
+              }
+          },
+          mounted:function () {
+              //订阅事件
+              this.$on('parentMethod', function(value){
+                  console.log(value);
+              });
+          }
+      })
+    </script>
+  </body>
+</html>

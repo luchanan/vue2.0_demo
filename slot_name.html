@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <title>template 注册组件</title>
+  </head>
+  <body>
+    <template id="list-template">
+      <div class="child">
+        <h2>child</h2>
+        <slot name="header"></slot>
+        <slot name="footer"></slot>
+      </div>
+    </template>
+    <div id="app">
+      <div>
+        <h1>头部f</h1>
+        <list>
+
+          <p class="footer" slot="footer">form parent footer</p>
+          <p class="header" slot="header">header</p>
+        </list>
+      </div>
+    </div>
+    <script>
+      Vue.component('list', {
+          template: '#list-template',
+          props:{
+          },
+          data: function () {
+              return {
+              }
+          },
+          methods: {
+          }
+      })
+      var app=new Vue({
+          el: '#app',
+          data: function () {
+              return {}
+          },
+          mounted: function () {
+
+          },
+          methods: {}
+      })
+    </script>
+  </body>
+</html>

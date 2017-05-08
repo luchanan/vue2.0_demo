@@ -9,7 +9,7 @@
     <link href="https://cdn.bootcss.com/element-ui/1.2.8/theme-default/index.css" rel="stylesheet">
     <script src="Sortable.js"></script>
     <script src="vuedraggable.js"></script>
-    <title></title>
+    <title>object嵌套object有问题，没有绑定值</title>
     <style>
       /*.array_btns button{
         border: none;
@@ -79,11 +79,8 @@
     <template id="render_template">
       <div class="render_components">
         <ui-text v-if="schema.type=='text'" :schema="schema" :source="source" :schema_key="schema_key"></ui-text>
-        <ui-string v-if="schema.type=='string'" :schema="schema" :source="source" :schema_key="schema_key"></ui-string>
-        <ui-checkbox v-if="schema.type=='checkbox'" :schema="schema" :source="source" :schema_key="schema_key"></ui-checkbox>
-        <ui-radio v-if="schema.type=='radio'" :schema="schema" :source="source" :schema_key="schema_key"></ui-radio>
-        <ui-object v-if="schema.type=='object'" :schema="schema.object_schema" :source="source" :title="schema.title"></ui-object>
-        <ui-array v-if="schema.type=='array'" :schema="schema.array_item_schema" :source="source" :schema_key="schema_key" :title="schema.title"></ui-array>
+          <ui-object v-if="schema.type=='object'" :schema="schema.object_schema" :source="source" :title="schema.title" :schema_key="schema_key"></ui-object>
+          <ui-array v-if="schema.type=='array'" :schema="schema.array_item_schema" :source="source" :schema_key="schema_key" :title="schema.title"></ui-array>
       </div>
     </template>
     <template id="array_template">
@@ -112,9 +109,16 @@
 
     <template id="object_template">
       <div class="object">
+
         <fieldset :position="isObjectRoot">
           <legend v-if="title!=undefined">{{title}}</legend>
-          <render-components :source="source" :schema="schema[key]" :schema_key="key" v-for="(val, key) in schema"></render-components>
+
+
+            <p><strong>schema:</strong>{{schema}}</p>
+            <p><strong>source:</strong>{{source}}</p>
+
+
+            <render-components :source="source" :schema="schema[key]" :schema_key="joinKey(schema_key,key)" v-for="(val, key) in schema"></render-components>
         </fieldset>
       </div>
     </template>
@@ -122,71 +126,21 @@
 
     <template id="text_template">
       <div class="text">
+          <!--数据格式：{ "nestedList": { "test": { "test1": "this is test1" } } }-->
+          {{source}}<br>
+          <!--nestedList.test.test1-->
+          {{schema_key}}
         <el-form-item :label="schema.title">
-          <el-input v-model="source[schema_key]" size="small"></el-input>
+            <!--数据格式：vue中data的source为{ "nestedList": { "test": { "test1": "this is test1" } } }-->
+            <el-input v-model="getValue(source,schema_key)" size="small"></el-input>
+            <!--获取上一个key以"."加上当前的key来传递下去-->
+          <!--<el-input v-model="source['nestedList']['test']['test1']" size="small"></el-input>-->
         </el-form-item>
       </div>
     </template>
-
-    <template id="string_template">
-      <div class="string">
-        <el-form-item :label="schema.title">
-          <span>{{source[schema_key]}}</span>
-        </el-form-item>
-      </div>
-    </template>
-
-
-    <template id="checkbox_template">
-      <div class="checkbox">
-        <el-form-item :label="schema.title">
-          <el-checkbox-group v-model="source[schema_key]">
-            <el-checkbox :label="item" v-for="item in schema.options"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </div>
-    </template>
-
-    <template id="radio_template">
-      <div class="radio">
-        <el-form-item :label="schema.title">
-        <el-radio class="radio" v-model="source[schema_key]" :label="item" v-for="item in schema.options">{{item}}</el-radio>
-        </el-form-item>
-      </div>
-    </template>
-
-
-
-    <template id="select_template">
-      <div class="select">
-        <el-form-item :label="schema.title">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-                    v-for="item in options"
-                    :label="item.label"
-                    :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-    </template>
-
 
     <div id="app" v-cloak>
       <el-row gutter="50">
-        <el-col :span="6">
-          <h5>source data</h5>
-          <div id="prettyPrintJson">
-
-          </div>
-          <pre contenteditable="true" ref="jsonsource">{{source}}</pre>
-        </el-col>
-        <el-col :span="6">
-          <h5>json schema</h5>
-          <pre contenteditable="true" ref="jsonshema">{{schema}}</pre>
-          <el-button @click="generate($event)" size="mini">generate
-          </el-button>
-        </el-col>
         <el-col :span="12">
           <h5>render ui components</h5>
           <el-form ref="form" label-position="right" label-width="150px">
@@ -265,6 +219,22 @@
                       position.object=false
                       return 'object_root';
                   }
+              },
+          },
+          methods:{
+              joinKey:function (shcema_key,key) {
+                  if(shcema_key == undefined){
+                      return key
+                  }
+                  return shcema_key+"."+key
+              },
+              getValue:function (source,shcema_key) {
+                  var arr=shcema_key.split(".");
+                  var temp='source'
+                  arr.forEach(function (item) {
+                      temp=temp+"."+item
+                  })
+                  return temp
               }
           }
       })
@@ -318,7 +288,12 @@
           },
           uiObject:{
               template: '#object_template',
-              props: ['title']
+              props: ['title'],
+              data:function () {
+                  return{
+                      joinkey:'',
+                  }
+              }
           },
           uiText:{
               template: '#text_template'
@@ -331,8 +306,13 @@
               Vue.component(ele, comInherit.extend(obj[ele]));
           })
       }(components);
-      var source= {
-          nestedList:[[1,2,3]]
+      var source = {
+          "nestedList": {
+              "test": {
+                  "test1": "this is test1"
+              }
+          }
+
       }
       //对应的Schema文档,type
       var schema= {
@@ -340,37 +320,21 @@
           "type": "object",
           "object_schema": {
               "nestedList": {
-                  "type": "array",
+                  "type": "object",
                   "title": "Nested list",
-                  "array_item_schema": {
-                      "type": "array",
-                      "title": "Inner list",
-                      "array_item_schema": {
-                          "type": "array",
-                          "title": "inner Inner list",
-                          "array_item_schema": {
-                              "title": "inner Nested list",
-                              "type":"text"
+                  "object_schema": {
+
+                          test: {
+                              type: "object",
+                              object_schema: {
+                                  test1: {
+                                      type: "text",
+                                      title: "test1"
+                                  }
+                              }
                           }
-                      }
                   }
               },
-              "nestedList1": {
-                  "type": "array",
-                  "title": "Nested list1",
-                  "array_item_schema": {
-                      "type": "array",
-                      "title": "Inner list",
-                      "array_item_schema": {
-                          "type": "array",
-                          "title": "inner Inner list",
-                          "array_item_schema": {
-                              "title": "inner Nested list",
-                              "type":"text"
-                          }
-                      }
-                  }
-              }
           }
       }
       var app=new Vue({
