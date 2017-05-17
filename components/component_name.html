@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <test></test>
+    </div>
+
+
+    <script>
+      var testComponent={
+          name:"test_name",
+          template:'<div>{{this.$options.name}}-{{$data.test1}}</div>',
+          data:function () {
+              return{
+                  test1:0
+              }
+          }
+      }
+      var app=new Vue({
+          el:'#app',
+          data: function (){
+              return {
+                  index:0
+              }
+          },
+          components: {
+              'test': testComponent
+          }
+      })
+      console.log(app.$options)
+    </script>
+  </body>
+</html>
