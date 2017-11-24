@@ -5,11 +5,12 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
-    <title></title>
+    <title>获取组件</title>
   </head>
   <body>
     <div id="app">
       <test></test>
+      <test1></test1>
     </div>
 
 
@@ -23,6 +24,24 @@
               }
           }
       }
+      var testComponent1={
+          name:"test1_name",
+          template:'<div>{{$options.name}}-{{$data.test1}}<test2></test2></div>',
+          data:function () {
+              return{
+                  test1:1
+              }
+          }
+      }
+      Vue.component('test2' , {
+          name:"test2_name",
+          template:'<div>{{$options.name}}-{{$data.test1}}</div>',
+          data:function () {
+              return{
+                  test1:2
+              }
+          }
+      })
       var app=new Vue({
           el:'#app',
           data: function (){
@@ -31,10 +50,13 @@
               }
           },
           components: {
-              'test': testComponent
+              'test': testComponent,
+              'test1': testComponent1
           }
       })
+      console.log(app)
       console.log(app.$options)
+      console.log(app.$options.components.test1.data.name)
     </script>
   </body>
 </html>
